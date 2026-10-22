@@ -1,0 +1,21 @@
+{
+  "doc_id": "bank_statement-02",
+  "doc_type": "bank_statement",
+  "note": "Payroll Account statement",
+  "pages": 1,
+  "fields": {
+    "bank_name": "Pacific Commerce Bank",
+    "account_holder": "Acme Robotics Inc.",
+    "account_number": "****2210",
+    "currency": "USD",
+    "period_start": "2026-09-01",
+    "period_end": "2026-09-30",
+    "opening_balance": 12310.4,
+    "total_credits": 96503.27,
+    "total_debits": 95031.16,
+    "closing_balance": 13782.51
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {}
+}

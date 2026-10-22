@@ -1,0 +1,33 @@
+{
+  "doc_id": "delivery_note-01",
+  "doc_type": "delivery_note",
+  "note": "Full delivery for PO-4501",
+  "pages": 1,
+  "fields": {
+    "delivery_note_number": "DN-7781",
+    "delivery_date": "2026-09-08",
+    "supplier_name": "Northwind Supply Co.",
+    "customer_name": "Acme Robotics Inc.",
+    "po_number": "PO-4501",
+    "line_descriptions": [
+      "MG-996R servo motor",
+      "TMC2209 driver module",
+      "Battery pack 24V 10Ah"
+    ],
+    "line_ordered_quantities": [
+      40.0,
+      60.0,
+      12.0
+    ],
+    "line_shipped_quantities": [
+      40.0,
+      60.0,
+      12.0
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {
+    "po": "PO-4501"
+  }
+}

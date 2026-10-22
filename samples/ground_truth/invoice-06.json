@@ -1,0 +1,44 @@
+{
+  "doc_id": "invoice-06",
+  "doc_type": "invoice",
+  "note": "Re-sent copy of an invoice already posted and paid",
+  "pages": 1,
+  "fields": {
+    "invoice_number": "INV-NW-10198",
+    "issue_date": "2026-08-05",
+    "due_date": "2026-09-04",
+    "vendor_name": "Northwind Supply Co.",
+    "vendor_tax_id": "77-0421953",
+    "bill_to_name": "Acme Robotics Inc.",
+    "po_number": "PO-4506",
+    "currency": "USD",
+    "payment_terms": "Net 30",
+    "subtotal": 833.5,
+    "tax_amount": 70.85,
+    "total": 904.35,
+    "line_descriptions": [
+      "57BL55 brushless DC motor 24V",
+      "GT2 timing belt, 6 mm wide, 10 m"
+    ],
+    "line_quantities": [
+      10.0,
+      15.0
+    ],
+    "line_unit_prices": [
+      64.0,
+      12.9
+    ],
+    "line_amounts": [
+      640.0,
+      193.5
+    ]
+  },
+  "expected_flags": [
+    "duplicate_invoice",
+    "already_paid"
+  ],
+  "expected_route": "reject",
+  "links": {
+    "po": "PO-4506"
+  }
+}

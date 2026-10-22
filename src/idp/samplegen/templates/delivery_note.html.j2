@@ -1,0 +1,40 @@
+{% extends "_base.html.j2" %}
+{% block style %}
+  :root { --accent: {{ accent }}; }
+  header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid var(--accent); padding-bottom: 12px; }
+  .brand { font-size: 17pt; font-weight: 700; color: var(--accent); }
+  h1 { margin: 0 0 8px; font-size: 17pt; text-align: right; }
+  h1 small { display: block; font-size: 9pt; font-weight: 400; color: #6b7280; }
+  table.meta th { text-align: left; padding: 2px 12px 2px 0; }
+  .shipto { margin-top: 18px; border: 1px dashed #9ca3af; padding: 10px 12px; width: 55%; }
+  .label { font-size: 8pt; text-transform: uppercase; letter-spacing: .08em; color: #6b7280; }
+  table.lines { width: 100%; margin-top: 20px; }
+  table.lines th { background: #e5e7eb; text-align: left; padding: 7px 8px; font-size: 8.5pt; }
+  table.lines th.num { text-align: right; }
+  table.lines td { border-bottom: 1px solid #e5e7eb; padding: 8px; }
+  .sign { display: flex; gap: 40px; margin-top: 50px; }
+  .sign div { flex: 1; border-top: 1px solid #111827; padding-top: 4px; font-size: 8.5pt; color: #374151; }
+{% endblock %}
+{% block body %}
+<header>
+  <div>
+    <div class="brand">{{ supplier.name }}</div>
+    {% for l in supplier.address %}<div>{{ l }}</div>{% endfor %}
+    {% for l in supplier.contact %}<div class="muted">{{ l }}</div>{% endfor %}
+  </div>
+  <div>
+    <h1>DELIVERY NOTE<small>Packing slip - not an invoice</small></h1>
+    <table class="meta">{% for k, v in meta %}<tr><th>{{ k }}</th><td>{{ v }}</td></tr>{% endfor %}</table>
+  </div>
+</header>
+<div class="shipto">
+  <div class="label">Ship to</div>
+  {% for l in ship_to %}<div>{{ l }}</div>{% endfor %}
+</div>
+<table class="lines">
+  <thead><tr><th>Item</th><th>Description</th><th class="num">Ordered</th><th class="num">Shipped</th><th class="num">Backordered</th></tr></thead>
+  <tbody>{% for r in rows %}<tr><td>{{ r[0] }}</td><td>{{ r[1] }}</td><td class="num">{{ r[2] }}</td><td class="num">{{ r[3] }}</td><td class="num">{{ r[4] }}</td></tr>{% endfor %}</tbody>
+</table>
+<p>{{ packages }}. Please inspect goods on arrival and report damages or discrepancies within 3 business days.</p>
+<div class="sign"><div>Received by (name / signature)</div><div>Date</div></div>
+{% endblock %}

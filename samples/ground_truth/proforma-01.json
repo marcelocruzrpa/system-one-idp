@@ -1,0 +1,36 @@
+{
+  "doc_id": "proforma-01",
+  "doc_type": "proforma_invoice",
+  "note": "Pro forma (looks like an invoice, but is not a demand for payment)",
+  "pages": 1,
+  "fields": {
+    "proforma_number": "PF-HE-2026-019",
+    "issue_date": "2026-10-06",
+    "valid_until": "2026-10-20",
+    "vendor_name": "Helios Components GmbH",
+    "bill_to_name": "Acme Robotics Inc.",
+    "currency": "EUR",
+    "subtotal": 2900.0,
+    "tax_amount": 0.0,
+    "total": 2900.0,
+    "line_descriptions": [
+      "Torque sensor TS-200 Nm",
+      "Calibration certificate (DAkkS)"
+    ],
+    "line_quantities": [
+      4.0,
+      4.0
+    ],
+    "line_unit_prices": [
+      640.0,
+      85.0
+    ],
+    "line_amounts": [
+      2560.0,
+      340.0
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {}
+}

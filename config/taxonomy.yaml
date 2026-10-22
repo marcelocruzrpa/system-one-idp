@@ -1,0 +1,55 @@
+# Document types for the Jev classification Choice. Descriptions are contrastive on purpose:
+# they say what each type is *not*, so look-alikes (invoice / pro forma / quote) separate cleanly.
+
+instructions: >-
+  What type of business document is this? Judge by the document's purpose and who is asking whom
+  to do what, not by isolated keywords: a quote or pro forma can mention "invoice", and a credit
+  note can look like an invoice with negative amounts.
+
+doc_types:
+  invoice: >-
+    A final commercial invoice: the seller demands payment from the buyer for goods or services
+    already delivered or performed, with an amount due and usually a due date or payment terms.
+    Not a pro forma, not an estimate, not a credit note.
+  proforma_invoice: >-
+    A pro forma invoice: a preliminary bill issued before delivery, for prepayment, customs, or
+    approval. Explicitly titled pro forma and/or states it is not a tax invoice or not a demand
+    for payment.
+  credit_note: >-
+    A credit note / credit memo: the seller reduces or reverses an amount previously invoiced
+    (returns, discounts, corrections), usually referencing the original invoice.
+  quote: >-
+    A quotation, estimate, or proposal: the seller offers prices for goods or services the buyer
+    may order, often with a validity period. Nothing is owed yet.
+  purchase_order: >-
+    A purchase order: the buyer orders goods or services from a supplier, with a PO number,
+    ordered quantities and agreed prices. Issued by the buyer, not the seller.
+  delivery_note: >-
+    A delivery note, packing slip, or goods dispatch note: lists what was shipped or delivered
+    (quantities, backorders), usually without prices or amounts due.
+  receipt: >-
+    A point-of-sale or payment receipt: proof that a purchase was already paid at the time of
+    sale, typically from a shop, restaurant, or transport, with payment method shown.
+  bank_statement: >-
+    A bank account statement: a bank lists transactions, deposits, withdrawals, and opening and
+    closing balances of an account over a period.
+  remittance_advice: >-
+    A remittance advice: a payer notifies the payee that a payment was sent, listing which
+    invoices the payment settles and any deductions.
+  other: >-
+    None of the above: letters, contracts, marketing material, forms, or any document that is not
+    one of the listed business document types.
+
+# Speculative yes/no questions asked in the same request as the classification (fan-out).
+# Code consumes only the ones relevant to the chosen type.
+speculative:
+  has_paid_marking: >-
+    Is this an invoice or bill that has already been settled, e.g. a PAID stamp, a "payment
+    received" note, or a zero balance due? A remittance advice, receipt or bank statement that
+    describes payments is not itself a paid invoice.
+  multiple_documents: >-
+    Does the text contain more than one distinct business document (for example an invoice
+    followed by an unrelated delivery note)?
+  requests_bank_detail_change: >-
+    Does the document announce or request a change to the sender's bank account or payment
+    details (new IBAN, new account number, "please update our banking information")?

@@ -1,0 +1,44 @@
+{
+  "doc_id": "purchase_order-02",
+  "doc_type": "purchase_order",
+  "note": "PO issued by Acme to Helios Components GmbH",
+  "pages": 1,
+  "fields": {
+    "po_number": "PO-4502",
+    "po_date": "2026-08-18",
+    "buyer_name": "Acme Robotics Inc.",
+    "vendor_name": "Helios Components GmbH",
+    "delivery_date": "2026-09-15",
+    "ship_to": "1200 Harbor Point Blvd, Suite 400",
+    "payment_terms": "30 days net",
+    "currency": "EUR",
+    "subtotal": 4366.2,
+    "tax_amount": 0.0,
+    "total": 4366.2,
+    "line_descriptions": [
+      "Planetary gearbox PLE60, i=10",
+      "Absolute encoder 17-bit AE17",
+      "Ball screw SFU1204 L=500mm"
+    ],
+    "line_quantities": [
+      6.0,
+      10.0,
+      8.0
+    ],
+    "line_unit_prices": [
+      412.0,
+      129.5,
+      74.9
+    ],
+    "line_amounts": [
+      2472.0,
+      1295.0,
+      599.2
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {
+    "po": "PO-4502"
+  }
+}

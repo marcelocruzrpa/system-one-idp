@@ -1,0 +1,431 @@
+{%- macro icon(name, size=18) -%}
+{%- set paths = {
+  "po": '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+  "receipt": '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>',
+  "invoice": '<rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
+  "vendor": '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  "search": '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+  "bell": '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+  "x": '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  "chevron": '<polyline points="9 18 15 12 9 6"/>',
+  "alert": '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  "link": '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+} -%}
+<svg class="i" width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{ paths[name]|safe }}</svg>
+{%- endmacro -%}
+{%- macro chip(label) -%}<span class="chip {{ tones.get(label, 'muted') }}">{{ label }}</span>{%- endmacro -%}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Purchase orders · Acme ERP</title>
+<style>
+:root {
+  --bg: #f4f6fa; --surface: #fff; --line: #e4e8ef; --line-2: #eef1f5;
+  --text: #0f172a; --muted: #64748b; --faint: #94a3b8;
+  --brand: #4f46e5; --brand-ink: #3730a3; --brand-soft: #eef2ff;
+  --side: #0f172a; --side-text: #cbd5e1; --side-muted: #64748b; --side-active: #1e293b;
+  --ok: #15803d; --ok-bg: #dcfce7; --warn: #b45309; --warn-bg: #fef3c7; --warn-row: #fffbeb;
+  --info: #1d4ed8; --info-bg: #dbeafe; --muted-bg: #f1f5f9;
+  --radius: 12px; --shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 2px 6px rgba(15, 23, 42, .04);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: var(--text);
+       background: var(--bg); -webkit-font-smoothing: antialiased; }
+button { font: inherit; }
+.i { flex: none; }
+.app { display: grid; grid-template-columns: 232px 1fr; height: 100vh; }
+
+/* sidebar */
+.side { background: var(--side); color: var(--side-text); display: flex; flex-direction: column; padding: 18px 14px; }
+.brand { display: flex; gap: 12px; align-items: center; padding: 6px 8px 14px; }
+.mark { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #6366f1, #4338ca); display: grid;
+        place-items: center; color: #fff; font-weight: 700; font-size: 17px; }
+.brand b { display: block; color: #fff; font-size: 16px; }
+.brand small { color: var(--side-muted); font-size: 12.5px; }
+.group { margin: 20px 10px 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--side-muted);
+         font-weight: 600; }
+.side nav a { display: flex; align-items: center; gap: 11px; padding: 9px 10px; margin: 2px 0; border-radius: 8px;
+              color: var(--side-text); text-decoration: none; font-weight: 500; font-size: 14.5px; transition: background .15s; }
+.side nav a:hover { background: rgba(255, 255, 255, .05); }
+.side nav a.active { background: var(--side-active); color: #fff; }
+.side nav a.active .i { color: #a5b4fc; }
+.count { margin-left: auto; font-size: 12px; background: rgba(255, 255, 255, .08); padding: 1px 8px; border-radius: 999px; }
+.side-foot { margin-top: auto; padding: 14px 10px 2px; border-top: 1px solid rgba(255, 255, 255, .07); font-size: 12px;
+             color: var(--side-muted); line-height: 1.6; }
+.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #22c55e; margin-right: 6px; }
+
+/* top bar */
+.main { display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+.top { height: 64px; flex: none; display: flex; align-items: center; gap: 20px; padding: 0 32px; background: var(--surface);
+       border-bottom: 1px solid var(--line); }
+.crumbs { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; min-width: 0; white-space: nowrap; }
+.crumbs .i { color: var(--faint); }
+.crumbs span:last-child { color: var(--text); font-weight: 600; }
+.search { margin-left: auto; display: flex; align-items: center; gap: 8px; width: 340px; height: 38px; padding: 0 12px;
+          border: 1px solid var(--line); border-radius: 9px; background: var(--bg); color: var(--faint); transition: all .15s; }
+.search input { border: 0; outline: 0; background: transparent; font: inherit; font-size: 14px; color: var(--text); width: 100%; }
+.search:focus-within { border-color: #a5b4fc; box-shadow: 0 0 0 3px var(--brand-soft); background: #fff; }
+.user { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.user b { display: block; font-size: 13.5px; font-weight: 600; }
+.user small { color: var(--muted); }
+.bell { color: var(--muted); display: grid; margin-right: 8px; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--brand-soft); color: var(--brand-ink); display: grid;
+          place-items: center; font-weight: 600; font-size: 13px; }
+
+/* page */
+.content { flex: 1; overflow: auto; padding: 28px 32px 40px; }
+.view { animation: fade .25s ease; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+h1 { margin: 0; font-size: 25px; letter-spacing: -.015em; }
+.page-head p { margin: 4px 0 0; color: var(--muted); }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 22px; }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px;
+       box-shadow: var(--shadow); }
+.kpi span { color: var(--muted); font-size: 13px; font-weight: 500; }
+.kpi b { display: block; font-size: 24px; margin: 4px 0 2px; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.kpi small { color: var(--muted); font-size: 12.5px; }
+.kpi.warn b { color: var(--warn); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+        overflow: auto; }
+.card h3 { margin: 0; padding: 14px 18px; font-size: 15px; border-bottom: 1px solid var(--line); display: flex; gap: 8px;
+           align-items: center; }
+.card h3 small { color: var(--muted); font-weight: 500; font-size: 13px; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600;
+     padding: 11px 14px; background: #fafbfd; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 13px 14px; border-bottom: 1px solid var(--line-2); white-space: nowrap; vertical-align: middle; }
+th:first-child, td:first-child { padding-left: 18px; }
+th:last-child, td:last-child { padding-right: 18px; }
+tbody tr:last-child td { border-bottom: 0; }
+tfoot td { font-weight: 600; background: #fafbfd; border-top: 1px solid var(--line); border-bottom: 0; }
+th.num, td.num { text-align: right; }
+td.wrap { white-space: normal; min-width: 180px; }
+tr[data-href] { cursor: pointer; transition: background .12s; }
+tr[data-href]:hover { background: #f7f8ff; }
+tr[data-href]:hover .chev { color: var(--brand); transform: translateX(2px); }
+.chev { color: var(--faint); display: grid; transition: all .15s; }
+.doc { font-weight: 600; color: var(--brand-ink); text-decoration: none; }
+a.doc:hover { text-decoration: underline; }
+.sub { display: block; color: var(--muted); font-size: 12.5px; }
+.cur { color: var(--faint); font-size: 12px; font-weight: 500; margin-right: 5px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12.5px;
+        font-weight: 600; }
+.chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.chip.ok { color: var(--ok); background: var(--ok-bg); }
+.chip.warn { color: var(--warn); background: var(--warn-bg); }
+.chip.info { color: var(--info); background: var(--info-bg); }
+.chip.muted { color: #475569; background: var(--muted-bg); }
+.empty { padding: 32px 16px; text-align: center; color: var(--muted); }
+
+/* PO detail drawer */
+.scrim { position: fixed; inset: 0; background: rgba(15, 23, 42, .35); opacity: 0; pointer-events: none; transition: opacity .25s;
+         z-index: 9; }
+.scrim.open { opacity: 1; pointer-events: auto; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(960px, 94vw); background: var(--bg); z-index: 10;
+          box-shadow: -16px 0 48px rgba(15, 23, 42, .2); transform: translateX(104%); visibility: hidden;
+          transition: transform .34s cubic-bezier(.2, .8, .2, 1), visibility 0s .34s; display: flex; flex-direction: column; }
+.drawer.open { transform: none; visibility: visible; transition: transform .34s cubic-bezier(.2, .8, .2, 1); }
+.d-head { background: var(--surface); border-bottom: 1px solid var(--line); padding: 22px 28px 18px; display: flex;
+          align-items: flex-start; gap: 16px; }
+.eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+.d-head h2 { margin: 2px 0 10px; font-size: 27px; letter-spacing: -.015em; }
+.d-head .chips { display: flex; gap: 8px; }
+.close { margin-left: auto; width: 36px; height: 36px; border-radius: 9px; border: 1px solid var(--line); background: #fff;
+         color: var(--muted); display: grid; place-items: center; cursor: pointer; }
+.close:hover { color: var(--text); }
+.d-body { flex: 1; overflow: auto; padding: 22px 28px 36px; }
+.d-body > * + * { margin-top: 18px; }
+.facts { display: grid; grid-template-columns: 2fr 1fr 1fr; background: var(--surface); border: 1px solid var(--line);
+         border-radius: var(--radius); box-shadow: var(--shadow); }
+.facts > div { padding: 14px 18px; border-left: 1px solid var(--line-2); border-top: 1px solid var(--line-2); }
+.facts > div:nth-child(-n+3) { border-top: 0; }
+.facts > .vendor { grid-row: span 2; border-left: 0; }
+.facts span { display: block; font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 3px; }
+.facts b { font-weight: 600; }
+.facts .sub { margin-top: 2px; }
+.facts .cur { display: inline; font-size: 12px; margin: 0 5px 0 0; }
+tr.short td { background: var(--warn-row); }
+tr.short td:first-child { box-shadow: inset 3px 0 0 #f59e0b; }
+.badge { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 2px 8px; border-radius: 6px;
+         font-size: 12px; font-weight: 600; color: var(--warn); background: var(--warn-bg); }
+.rcv { display: inline-grid; gap: 5px; min-width: 76px; text-align: right; }
+.bar { height: 4px; border-radius: 2px; background: var(--line-2); overflow: hidden; }
+.bar i { display: block; height: 100%; background: #22c55e; }
+tr.short .bar i { background: #f59e0b; }
+.note { display: flex; gap: 10px; align-items: flex-start; padding: 14px 18px; color: var(--muted); }
+.note .i { color: var(--brand); margin-top: 2px; }
+
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .side, .search, .user div { display: none; }
+  .top, .content { padding-left: 16px; padding-right: 16px; }
+  .kpis { grid-template-columns: repeat(2, 1fr); }
+  .page-head { flex-wrap: wrap; }
+  .facts { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><span class="mark">A</span><div><b>Acme ERP</b><small>Acme Robotics Inc.</small></div></div>
+    <nav>
+      <p class="group">Procurement</p>
+      <a href="#/pos" data-nav="pos">{{ icon("po") }} Purchase orders <span class="count">{{ purchase_orders|length }}</span></a>
+      <a href="#/receipts" data-nav="receipts">{{ icon("receipt") }} Goods receipts <span class="count">{{ receipts|length }}</span></a>
+      <p class="group">Accounts payable</p>
+      <a href="#/invoices" data-nav="invoices">{{ icon("invoice") }} Posted invoices <span class="count">{{ invoices|length }}</span></a>
+      <p class="group">Master data</p>
+      <a href="#/vendors" data-nav="vendors">{{ icon("vendor") }} Vendors <span class="count">{{ vendors|length }}</span></a>
+    </nav>
+    <div class="side-foot"><span class="dot"></span>Company code US01<br>Fiscal year 2026<br>Mock ERP · samples/erp.json</div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <div class="crumbs" id="crumbs"></div>
+      <label class="search">{{ icon("search", 16) }}<input id="search" placeholder="Search documents, vendors, items…" autocomplete="off"></label>
+      <div class="user"><span class="bell">{{ icon("bell") }}</span><span class="avatar">AP</span><div><b>AP Clerk</b><small>Accounts payable</small></div></div>
+    </header>
+
+    <main class="content">
+      <section class="view" data-view="pos" data-crumb="Procurement|Purchase orders" hidden>
+        <div class="page-head">
+          <div><h1>Purchase orders</h1><p>Released purchase orders with their goods receipt and invoice status</p></div>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><span>Purchase orders</span><b>{{ purchase_orders|length }}</b><small>across {{ kpis.vendor_count }} vendor{{ 's' if kpis.vendor_count != 1 else '' }}</small></div>
+          <div class="kpi"><span>Open PO value (net)</span>
+            {%- for currency, amount in kpis.net_by_currency.items() %}
+            {%- if loop.first %}<b><span class="cur">{{ currency }}</span>{{ amount|money }}</b>{% else %}<small>+ {{ currency }} {{ amount|money }}</small>{% endif %}
+            {%- endfor %}</div>
+          <div class="kpi{{ ' warn' if kpis.awaiting else '' }}"><span>Awaiting goods</span><b>{{ kpis.awaiting|length }} PO{{ 's' if kpis.awaiting|length != 1 else '' }}</b>
+            <small>{% if kpis.awaiting %}{{ kpis.open_units|qty }} units open on {{ kpis.awaiting|map(attribute="po_number")|join(", ") }}{% else %}everything received{% endif %}</small></div>
+          <div class="kpi"><span>Not yet invoiced</span><b>{{ kpis.not_invoiced }}</b><small>ready for three-way match</small></div>
+        </div>
+        <div class="card">
+          <table>
+            <thead><tr><th>PO number</th><th>Vendor</th><th>Deliver by</th><th class="num">Net value</th><th>Goods receipt</th><th>Invoice</th><th></th></tr></thead>
+            <tbody>
+            {%- for po in purchase_orders %}
+              <tr data-href="#/pos/{{ po.po_number }}">
+                <td><span class="doc">{{ po.po_number }}</span><span class="sub">{{ po.po_date|day }}</span></td>
+                <td>{{ po.vendor }}<span class="sub">{{ po.vendor_id }} · {{ po.lines|length }} line{{ 's' if po.lines|length != 1 else '' }}</span></td>
+                <td>{{ po.delivery_date|day }}</td>
+                <td class="num"><span class="cur">{{ po.currency }}</span>{{ po.net|money }}</td>
+                <td>{{ chip(po.receipt_status) }}</td>
+                <td>{{ chip(po.invoice_status) }}</td>
+                <td><span class="chev">{{ icon("chevron", 16) }}</span></td>
+              </tr>
+            {%- else %}
+              <tr><td colspan="7" class="empty">No purchase orders.</td></tr>
+            {%- endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" data-view="receipts" data-crumb="Procurement|Goods receipts" hidden>
+        <div class="page-head">
+          <div><h1>Goods receipts</h1><p>Deliveries posted by the warehouse against purchase orders</p></div>
+        </div>
+        <div class="card">
+          <table>
+            <thead><tr><th>Receipt</th><th>Posted on</th><th>Purchase order</th><th>Vendor</th><th class="num">Lines</th><th class="num">Qty received</th><th>PO status</th></tr></thead>
+            <tbody>
+            {%- for gr in receipts %}
+              <tr data-href="#/receipts/{{ gr.po_number }}">
+                <td><b>{{ gr.gr_number }}</b></td>
+                <td>{{ gr.posted_on|day }}</td>
+                <td><span class="doc">{{ gr.po_number }}</span></td>
+                <td>{{ gr.vendor }}<span class="sub">{{ gr.vendor_id }}</span></td>
+                <td class="num">{{ gr.lines }}</td>
+                <td class="num">{{ gr.quantity|qty }}</td>
+                <td>{% if gr.po_status %}{{ chip(gr.po_status) }}{% else %}—{% endif %}</td>
+              </tr>
+            {%- else %}
+              <tr><td colspan="7" class="empty">No goods receipts.</td></tr>
+            {%- endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" data-view="invoices" data-crumb="Accounts payable|Posted invoices" hidden>
+        <div class="page-head">
+          <div><h1>Posted invoices</h1><p>Vendor invoices already booked in accounts payable</p></div>
+        </div>
+        <div class="card">
+          <table>
+            <thead><tr><th>Invoice number</th><th>Vendor</th><th>Posted on</th><th class="num">Amount</th><th>Status</th></tr></thead>
+            <tbody>
+            {%- for inv in invoices %}
+              <tr>
+                <td><b>{{ inv.invoice_number }}</b></td>
+                <td>{{ inv.vendor }}<span class="sub">{{ inv.vendor_id }}</span></td>
+                <td>{{ inv.posted_on|day }}</td>
+                <td class="num">{% if inv.amount is not none %}<span class="cur">{{ inv.currency }}</span>{{ inv.amount|money }}{% else %}{{ inv.amount_text }}{% endif %}</td>
+                <td>{{ chip("Posted") }}</td>
+              </tr>
+            {%- else %}
+              <tr><td colspan="5" class="empty">No posted invoices.</td></tr>
+            {%- endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" data-view="vendors" data-crumb="Master data|Vendors" hidden>
+        <div class="page-head">
+          <div><h1>Vendors</h1><p>Vendor master: supplier names on incoming invoices are resolved against these records</p></div>
+        </div>
+        <div class="card">
+          <table>
+            <thead><tr><th>Vendor</th><th>Name</th><th>Address</th><th class="num">POs</th><th class="num">PO value</th><th>Status</th></tr></thead>
+            <tbody>
+            {%- for v in vendors %}
+              <tr>
+                <td><b>{{ v.vendor_id }}</b><span class="sub">Tax ID {{ v.tax_id }}</span></td>
+                <td>{{ v.name }}{% if v.email %}<span class="sub">{{ v.email }}</span>{% endif %}</td>
+                <td class="wrap">{{ v.address|join(", ") or "—" }}</td>
+                <td class="num">{{ v.po_count }}</td>
+                <td class="num"><span class="cur">{{ v.currency }}</span>{{ v.po_value|money }}</td>
+                <td>{{ chip("Active") }}</td>
+              </tr>
+            {%- else %}
+              <tr><td colspan="6" class="empty">No vendors.</td></tr>
+            {%- endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+{%- for po in purchase_orders %}
+<aside class="drawer" id="po-{{ po.po_number }}" data-po="{{ po.po_number }}" aria-label="Purchase order {{ po.po_number }}">
+  <div class="d-head">
+    <div>
+      <div class="eyebrow">Purchase order</div>
+      <h2>{{ po.po_number }}</h2>
+      <div class="chips">{{ chip(po.receipt_status) }}{{ chip(po.invoice_status) }}</div>
+    </div>
+    <button class="close" type="button" data-close title="Close (Esc)">{{ icon("x") }}</button>
+  </div>
+  <div class="d-body">
+    <div class="facts">
+      <div class="vendor"><span>Vendor</span><b>{{ po.vendor }}</b>
+        <span class="sub">{{ po.vendor_id }}{% if po.tax_id %} · Tax ID {{ po.tax_id }}{% endif %}</span>
+        {%- for row in po.address %}<span class="sub">{{ row }}</span>{% endfor %}</div>
+      <div><span>PO date</span><b>{{ po.po_date|day }}</b></div>
+      <div><span>Deliver by</span><b>{{ po.delivery_date|day }}</b></div>
+      <div><span>Payment terms</span><b>{{ po.payment_terms }}</b></div>
+      <div><span>Net value</span><b><span class="cur">{{ po.currency }}</span>{{ po.net|money }}</b></div>
+    </div>
+
+    <div class="card">
+      <h3>Items <small>{{ po.lines|length }} line{{ 's' if po.lines|length != 1 else '' }}</small></h3>
+      <table>
+        <thead><tr><th>Line</th><th>Description</th><th class="num">Ordered</th><th class="num">Received</th><th class="num">Invoiced</th><th class="num">Unit price</th><th class="num">Net amount</th></tr></thead>
+        <tbody>
+        {%- for line in po.lines %}
+          <tr{% if line.open %} class="short"{% endif %}>
+            <td>{{ "%02d"|format(line.line) }}</td>
+            <td class="wrap">{{ line.description }}{% if line.open %}<span class="badge">{{ icon("alert", 12) }}{{ line.open|qty }} open</span>{% endif %}</td>
+            <td class="num">{{ line.quantity|qty }}</td>
+            <td class="num"><span class="rcv">{{ line.received|qty }}<span class="bar"><i style="width: {{ [100 * line.received / line.quantity, 100]|min if line.quantity else 0 }}%"></i></span></span></td>
+            <td class="num">{{ line.invoiced|qty }}</td>
+            <td class="num">{{ line.unit_price|money }}</td>
+            <td class="num">{{ line.amount|money }}</td>
+          </tr>
+        {%- endfor %}
+        </tbody>
+        <tfoot><tr><td colspan="6">Net total</td><td class="num"><span class="cur">{{ po.currency }}</span>{{ po.net|money }}</td></tr></tfoot>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Goods receipts <small>{{ po.receipts|length }}</small></h3>
+      {%- if po.receipts %}
+      <table>
+        <thead><tr><th>Receipt</th><th>Posted on</th><th class="num">Lines</th><th class="num">Qty received</th><th class="num">Qty ordered</th></tr></thead>
+        <tbody>
+        {%- for gr in po.receipts %}
+          <tr><td><b>{{ gr.gr_number }}</b></td><td>{{ gr.posted_on|day }}</td><td class="num">{{ gr.lines }}</td><td class="num">{{ gr.quantity|qty }}</td><td class="num">{{ po.ordered_qty|qty }}</td></tr>
+        {%- endfor %}
+        </tbody>
+      </table>
+      {%- else %}
+      <div class="empty">Nothing received yet.</div>
+      {%- endif %}
+    </div>
+
+    <div class="card">
+      <h3>Invoices</h3>
+      <div class="note">{{ icon("link") }}<div>{% if po.invoice_status == "Not invoiced" %}No invoice posted against this PO yet. {% endif %}Incoming invoices are three-way matched against this PO and its goods receipts before they are posted.</div></div>
+    </div>
+  </div>
+</aside>
+{%- endfor %}
+
+<script>
+(() => {
+  const views = [...document.querySelectorAll(".view")];
+  const navs = [...document.querySelectorAll("[data-nav]")];
+  const crumbs = document.getElementById("crumbs");
+  const search = document.getElementById("search");
+  const scrim = document.getElementById("scrim");
+  const chevron = {{ icon("chevron", 14)|tojson }};
+  let current = views[0];
+
+  function route() {
+    const [name, doc] = location.hash.replace(/^#\/?/, "").split("/");
+    current = views.find(v => v.dataset.view === name) || views[0];
+    views.forEach(v => v.hidden = v !== current);
+    navs.forEach(a => a.classList.toggle("active", a.dataset.nav === current.dataset.view));
+    const drawer = doc ? document.getElementById("po-" + decodeURIComponent(doc)) : null;
+    document.querySelectorAll(".drawer.open").forEach(d => d !== drawer && d.classList.remove("open"));
+    if (drawer) drawer.classList.add("open");
+    scrim.classList.toggle("open", !!drawer);
+
+    const parts = current.dataset.crumb.split("|").concat(drawer ? [drawer.dataset.po] : []);
+    crumbs.replaceChildren(...parts.flatMap((text, i) => {
+      const span = Object.assign(document.createElement("span"), {textContent: text});
+      if (!i) return [span];
+      const sep = document.createElement("template");
+      sep.innerHTML = chevron;
+      return [sep.content.firstChild, span];
+    }));
+    document.title = `${parts[parts.length - 1]} · Acme ERP`;
+    search.value = "";
+    filter();
+  }
+
+  function filter() {
+    const q = search.value.trim().toLowerCase();
+    current.querySelectorAll("tbody tr").forEach(tr => tr.hidden = !!q && !tr.textContent.toLowerCase().includes(q));
+  }
+
+  const close = () => { location.hash = "#/" + current.dataset.view; };
+  document.addEventListener("click", e => {
+    const row = e.target.closest("tr[data-href]");
+    if (row) location.hash = row.dataset.href;
+    if (e.target.closest("[data-close]") || e.target === scrim) close();
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && scrim.classList.contains("open")) close();
+    if (e.key === "/" && document.activeElement !== search) { e.preventDefault(); search.focus(); }
+  });
+  search.addEventListener("input", filter);
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>
+</body>
+</html>

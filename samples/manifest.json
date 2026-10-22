@@ -1,0 +1,275 @@
+[
+  {
+    "doc_id": "invoice-01",
+    "doc_type": "invoice",
+    "pages": 1,
+    "digital": "digital/invoice-01.pdf",
+    "scanned": "scanned/invoice-01.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Clean invoice; matches PO-4501 and its full delivery"
+  },
+  {
+    "doc_id": "invoice-02",
+    "doc_type": "invoice",
+    "pages": 1,
+    "digital": "digital/invoice-02.pdf",
+    "scanned": "scanned/invoice-02.png",
+    "expected_flags": [
+      "qty_exceeds_received"
+    ],
+    "expected_route": "review",
+    "note": "Bills 10 encoders but only 8 were received (short shipment on DN-HE-2210)"
+  },
+  {
+    "doc_id": "invoice-03",
+    "doc_type": "invoice",
+    "pages": 1,
+    "digital": "digital/invoice-03.pdf",
+    "scanned": "scanned/invoice-03.png",
+    "expected_flags": [
+      "price_mismatch"
+    ],
+    "expected_route": "review",
+    "note": "Chair billed at 265.00 vs 245.00 on the PO"
+  },
+  {
+    "doc_id": "invoice-04",
+    "doc_type": "invoice",
+    "pages": 1,
+    "digital": "digital/invoice-04.pdf",
+    "scanned": "scanned/invoice-04.png",
+    "expected_flags": [
+      "total_mismatch"
+    ],
+    "expected_route": "review",
+    "note": "Printed total is 100.00 higher than subtotal + tax"
+  },
+  {
+    "doc_id": "invoice-05",
+    "doc_type": "invoice",
+    "pages": 1,
+    "digital": "digital/invoice-05.pdf",
+    "scanned": "scanned/invoice-05.png",
+    "expected_flags": [
+      "not_addressed_to_us",
+      "missing_po"
+    ],
+    "expected_route": "reject",
+    "note": "Billed to a different company (Apex Robotix B.V.) and has no PO"
+  },
+  {
+    "doc_id": "invoice-06",
+    "doc_type": "invoice",
+    "pages": 1,
+    "digital": "digital/invoice-06.pdf",
+    "scanned": "scanned/invoice-06.png",
+    "expected_flags": [
+      "duplicate_invoice",
+      "already_paid"
+    ],
+    "expected_route": "reject",
+    "note": "Re-sent copy of an invoice already posted and paid"
+  },
+  {
+    "doc_id": "invoice-07",
+    "doc_type": "invoice",
+    "pages": 2,
+    "digital": "digital/invoice-07.pdf",
+    "scanned": "scanned/invoice-07.pdf",
+    "expected_flags": [
+      "due_before_issue",
+      "bank_detail_change"
+    ],
+    "expected_route": "review",
+    "note": "Two-page invoice; due date before invoice date; requests a bank detail change"
+  },
+  {
+    "doc_id": "purchase_order-01",
+    "doc_type": "purchase_order",
+    "pages": 1,
+    "digital": "digital/purchase_order-01.pdf",
+    "scanned": "scanned/purchase_order-01.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "PO issued by Acme to Northwind Supply Co."
+  },
+  {
+    "doc_id": "purchase_order-02",
+    "doc_type": "purchase_order",
+    "pages": 1,
+    "digital": "digital/purchase_order-02.pdf",
+    "scanned": "scanned/purchase_order-02.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "PO issued by Acme to Helios Components GmbH"
+  },
+  {
+    "doc_id": "purchase_order-03",
+    "doc_type": "purchase_order",
+    "pages": 1,
+    "digital": "digital/purchase_order-03.pdf",
+    "scanned": "scanned/purchase_order-03.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "PO issued by Acme to Bluefin Office Supplies LLC"
+  },
+  {
+    "doc_id": "delivery_note-01",
+    "doc_type": "delivery_note",
+    "pages": 1,
+    "digital": "digital/delivery_note-01.pdf",
+    "scanned": "scanned/delivery_note-01.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Full delivery for PO-4501"
+  },
+  {
+    "doc_id": "delivery_note-02",
+    "doc_type": "delivery_note",
+    "pages": 1,
+    "digital": "digital/delivery_note-02.pdf",
+    "scanned": "scanned/delivery_note-02.png",
+    "expected_flags": [
+      "short_shipment"
+    ],
+    "expected_route": "review",
+    "note": "Encoder short-shipped: 8 of 10, 2 on backorder"
+  },
+  {
+    "doc_id": "delivery_note-03",
+    "doc_type": "delivery_note",
+    "pages": 1,
+    "digital": "digital/delivery_note-03.pdf",
+    "scanned": "scanned/delivery_note-03.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Full delivery for PO-4503"
+  },
+  {
+    "doc_id": "receipt-01",
+    "doc_type": "receipt",
+    "pages": 1,
+    "digital": "digital/receipt-01.pdf",
+    "scanned": "scanned/receipt-01.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Hardware store receipt (business supplies)"
+  },
+  {
+    "doc_id": "receipt-02",
+    "doc_type": "receipt",
+    "pages": 1,
+    "digital": "digital/receipt-02.pdf",
+    "scanned": "scanned/receipt-02.png",
+    "expected_flags": [
+      "non_reimbursable_items"
+    ],
+    "expected_route": "review",
+    "note": "Restaurant receipt including alcohol"
+  },
+  {
+    "doc_id": "credit_note-01",
+    "doc_type": "credit_note",
+    "pages": 1,
+    "digital": "digital/credit_note-01.pdf",
+    "scanned": "scanned/credit_note-01.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Clean credit note for a posted invoice"
+  },
+  {
+    "doc_id": "credit_note-02",
+    "doc_type": "credit_note",
+    "pages": 1,
+    "digital": "digital/credit_note-02.pdf",
+    "scanned": "scanned/credit_note-02.png",
+    "expected_flags": [
+      "line_sum_mismatch"
+    ],
+    "expected_route": "review",
+    "note": "Printed subtotal 185.00 but lines sum to 175.00"
+  },
+  {
+    "doc_id": "quote-01",
+    "doc_type": "quote",
+    "pages": 1,
+    "digital": "digital/quote-01.pdf",
+    "scanned": "scanned/quote-01.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Quote (nothing owed yet)"
+  },
+  {
+    "doc_id": "quote-02",
+    "doc_type": "quote",
+    "pages": 1,
+    "digital": "digital/quote-02.pdf",
+    "scanned": "scanned/quote-02.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Quote (nothing owed yet)"
+  },
+  {
+    "doc_id": "proforma-01",
+    "doc_type": "proforma_invoice",
+    "pages": 1,
+    "digital": "digital/proforma-01.pdf",
+    "scanned": "scanned/proforma-01.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Pro forma (looks like an invoice, but is not a demand for payment)"
+  },
+  {
+    "doc_id": "proforma-02",
+    "doc_type": "proforma_invoice",
+    "pages": 1,
+    "digital": "digital/proforma-02.pdf",
+    "scanned": "scanned/proforma-02.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Pro forma (looks like an invoice, but is not a demand for payment)"
+  },
+  {
+    "doc_id": "bank_statement-01",
+    "doc_type": "bank_statement",
+    "pages": 1,
+    "digital": "digital/bank_statement-01.pdf",
+    "scanned": "scanned/bank_statement-01.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Business Checking statement"
+  },
+  {
+    "doc_id": "bank_statement-02",
+    "doc_type": "bank_statement",
+    "pages": 1,
+    "digital": "digital/bank_statement-02.pdf",
+    "scanned": "scanned/bank_statement-02.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Payroll Account statement"
+  },
+  {
+    "doc_id": "remittance_advice-01",
+    "doc_type": "remittance_advice",
+    "pages": 1,
+    "digital": "digital/remittance_advice-01.pdf",
+    "scanned": "scanned/remittance_advice-01.png",
+    "expected_flags": [],
+    "expected_route": "auto_approve",
+    "note": "Full payment of two invoices"
+  },
+  {
+    "doc_id": "remittance_advice-02",
+    "doc_type": "remittance_advice",
+    "pages": 1,
+    "digital": "digital/remittance_advice-02.pdf",
+    "scanned": "scanned/remittance_advice-02.png",
+    "expected_flags": [
+      "short_payment"
+    ],
+    "expected_route": "review",
+    "note": "Deduction taken on one invoice"
+  }
+]

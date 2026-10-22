@@ -1,0 +1,27 @@
+{
+  "doc_id": "remittance_advice-02",
+  "doc_type": "remittance_advice",
+  "note": "Deduction taken on one invoice",
+  "pages": 1,
+  "fields": {
+    "payer_name": "Initech Automation Inc.",
+    "payee_name": "Acme Robotics Inc.",
+    "payment_date": "2026-10-13",
+    "payment_reference": "WT-2026101300457",
+    "currency": "USD",
+    "payment_total": 14910.0,
+    "invoice_numbers": [
+      "ACM-INV-3290",
+      "ACM-INV-3312"
+    ],
+    "paid_amounts": [
+      5600.0,
+      9310.0
+    ]
+  },
+  "expected_flags": [
+    "short_payment"
+  ],
+  "expected_route": "review",
+  "links": {}
+}

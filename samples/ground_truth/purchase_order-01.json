@@ -1,0 +1,44 @@
+{
+  "doc_id": "purchase_order-01",
+  "doc_type": "purchase_order",
+  "note": "PO issued by Acme to Northwind Supply Co.",
+  "pages": 1,
+  "fields": {
+    "po_number": "PO-4501",
+    "po_date": "2026-08-24",
+    "buyer_name": "Acme Robotics Inc.",
+    "vendor_name": "Northwind Supply Co.",
+    "delivery_date": "2026-09-08",
+    "ship_to": "1200 Harbor Point Blvd, Suite 400",
+    "payment_terms": "Net 30",
+    "currency": "USD",
+    "subtotal": 3383.0,
+    "tax_amount": 287.56,
+    "total": 3670.56,
+    "line_descriptions": [
+      "Servo motor MG996R",
+      "Stepper driver module TMC2209",
+      "Li-ion battery pack 24 V / 10 Ah"
+    ],
+    "line_quantities": [
+      40.0,
+      60.0,
+      12.0
+    ],
+    "line_unit_prices": [
+      18.5,
+      6.25,
+      189.0
+    ],
+    "line_amounts": [
+      740.0,
+      375.0,
+      2268.0
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {
+    "po": "PO-4501"
+  }
+}

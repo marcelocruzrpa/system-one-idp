@@ -1,0 +1,43 @@
+[project]
+name = "idp"
+version = "0.1.0"
+description = "IDP proof-of-concept driven by System One models: Jev (classification, validation) + Clairic (extraction)"
+authors = [
+    { name = "Marcelo Cruz", email = "marcelo@marcelocruzrpa.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.28.1",
+    "jinja2>=3.1.6",
+    "onnxruntime>=1.31.0",
+    "pandas>=3.0.0",
+    "pillow>=13.0.0",
+    "pydantic>=2.14.1",
+    "pymupdf>=2.0",
+    "python-dotenv>=1.2.4",
+    "pyyaml>=6.0.3",
+    "rapidocr>=3.10.0",
+    "rich>=15.0.0",
+    "streamlit>=1.66.1",
+    "typer>=0.27.3",
+    "typesafe-sdk>=0.7.5",
+]
+
+[project.scripts]
+idp = "idp.cli:app"
+
+[build-system]
+requires = ["uv_build>=0.12.0,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+# Only `idp generate` (rendering the sample documents with a headless browser) needs this group.
+samplegen = [
+    "playwright>=1.64.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

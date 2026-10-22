@@ -1,0 +1,30 @@
+# Credit notes / credit memos reducing a previous invoice.
+required: [credit_note_number, issue_date, vendor_name, customer_name, total]
+verify_fields: [vendor_name, original_invoice_number, issue_date, subtotal, tax_amount, total]
+lines:
+  descriptions: line_descriptions
+  quantities: line_quantities
+  unit_prices: line_unit_prices
+  amounts: line_amounts
+rules:
+  - {check: totals}
+  - {check: line_sum}
+  - {check: line_math}
+  - {check: not_future, fields: [issue_date]}
+  - {check: original_invoice_exists}
+semantic: [not_addressed_to_us]
+fields:
+  credit_note_number: {type: text, instructions: "The credit note's own number"}
+  issue_date: {type: date, instructions: "Date the credit note was issued"}
+  vendor_name: {type: text, instructions: "Name of the company issuing the credit (the seller)"}
+  customer_name: {type: text, instructions: "Name of the customer receiving the credit"}
+  original_invoice_number: {type: text, instructions: "Number of the original invoice being credited"}
+  reason: {type: text, instructions: "Reason for the credit"}
+  currency: {type: text, instructions: "ISO currency code of the amounts, e.g. USD or EUR"}
+  subtotal: {type: number, decimals: 2, instructions: "Credited amount before tax, as a positive number"}
+  tax_amount: {type: number, decimals: 2, instructions: "Credited tax amount, as a positive number"}
+  total: {type: number, decimals: 2, instructions: "Total credited amount including tax, as a positive number"}
+  line_descriptions: {type: list, items: text, instructions: "The description of each credited line item in the table, one per row, in order. Exclude item/SKU codes, column headers, totals rows, company names and addresses"}
+  line_quantities: {type: list, items: number, decimals: 2, instructions: "Quantity of each credited line item, as positive numbers, in order"}
+  line_unit_prices: {type: list, items: number, decimals: 2, instructions: "Unit price of each credited line item, as positive numbers, in order"}
+  line_amounts: {type: list, items: number, decimals: 2, instructions: "Credited amount of each line item, as positive numbers, in order"}

@@ -1,0 +1,44 @@
+{
+  "doc_id": "purchase_order-03",
+  "doc_type": "purchase_order",
+  "note": "PO issued by Acme to Bluefin Office Supplies LLC",
+  "pages": 1,
+  "fields": {
+    "po_number": "PO-4503",
+    "po_date": "2026-09-01",
+    "buyer_name": "Acme Robotics Inc.",
+    "vendor_name": "Bluefin Office Supplies LLC",
+    "delivery_date": "2026-09-12",
+    "ship_to": "1200 Harbor Point Blvd, Suite 400",
+    "payment_terms": "Net 15",
+    "currency": "USD",
+    "subtotal": 3388.0,
+    "tax_amount": 317.63,
+    "total": 3705.63,
+    "line_descriptions": [
+      "Ergonomic mesh office chair",
+      "Dual monitor arm",
+      "Standing desk converter, 32\""
+    ],
+    "line_quantities": [
+      8.0,
+      8.0,
+      4.0
+    ],
+    "line_unit_prices": [
+      245.0,
+      89.0,
+      179.0
+    ],
+    "line_amounts": [
+      1960.0,
+      712.0,
+      716.0
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {
+    "po": "PO-4503"
+  }
+}

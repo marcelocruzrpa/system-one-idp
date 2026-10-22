@@ -1,0 +1,40 @@
+# Clairic extraction fields + validation config for final invoices.
+required: [invoice_number, issue_date, vendor_name, bill_to_name, total]
+# Fields the Jev verifier checks (`unsupported:` / `wrong_role:` Nouls): everything a rule or the routing depends on.
+verify_fields: [vendor_name, vendor_tax_id, invoice_number, issue_date, due_date, subtotal, tax_amount, total, po_number, currency]
+lines:
+  descriptions: line_descriptions
+  quantities: line_quantities
+  unit_prices: line_unit_prices
+  amounts: line_amounts
+# A rule whose inputs were not extracted raises `unverified:<flag>` (review) unless it is `optional: true`.
+rules:
+  - {check: totals}
+  - {check: line_sum}
+  - {check: line_math}
+  - {check: date_order, earlier: issue_date, later: due_date, flag: due_before_issue, optional: true}
+  - {check: not_future, fields: [issue_date]}
+  - {check: duplicate_invoice}
+  - {check: vendor_identity, optional: true}
+  - {check: require_po}
+  - {check: three_way_match}
+semantic: [not_addressed_to_us, already_paid, bank_detail_change]
+# Instructions ask the model to READ printed values. Anything derived (due date from terms, line totals, sums) is
+# computed and checked in code, so the model is never invited to compute.
+fields:
+  invoice_number: {type: text, instructions: "The invoice's own number assigned by the seller (not the PO number, customer number or order number)"}
+  issue_date: {type: date, instructions: "Date the invoice was issued"}
+  due_date: {type: date, instructions: "The payment due date exactly as printed on the invoice (labelled 'Due date', 'Payment due' or similar). Do not compute it from the payment terms or the invoice date; null when no due date is printed"}
+  vendor_name: {type: text, instructions: "Name of the company that issued the invoice and is owed the money (the seller), not the customer"}
+  vendor_tax_id: {type: text, instructions: "The tax, VAT or EIN identification number of the company that ISSUED the invoice (the seller named in the letterhead or sender block, e.g. 'VAT ID: DE123456789' or 'Tax ID: 12-3456789'). Never the Tax ID printed inside the 'Bill to' / customer block"}
+  bill_to_name: {type: text, instructions: "Name of the company being billed (the buyer / bill-to party)"}
+  po_number: {type: text, instructions: "The buyer's purchase order (PO) number referenced on the invoice"}
+  currency: {type: text, instructions: "ISO currency code of the amounts, e.g. USD or EUR"}
+  payment_terms: {type: text, instructions: "Payment terms, e.g. Net 30"}
+  subtotal: {type: number, decimals: 2, instructions: "The subtotal (total before tax) as printed"}
+  tax_amount: {type: number, decimals: 2, instructions: "Total tax amount (sales tax or VAT) as printed"}
+  total: {type: number, decimals: 2, instructions: "Grand total amount due including tax, as printed"}
+  line_descriptions: {type: list, items: text, instructions: "The description text of each billed line item in the line-item table, one per row, in order. Exclude item/SKU codes, column headers, subtotal/tax/total rows, company names, addresses and tax IDs"}
+  line_quantities: {type: list, items: number, decimals: 2, instructions: "Quantity of each billed line item, in order"}
+  line_unit_prices: {type: list, items: number, decimals: 2, instructions: "Unit price of each billed line item, in order"}
+  line_amounts: {type: list, items: number, decimals: 2, instructions: "The amount printed in the Amount column of each billed line item, in order"}

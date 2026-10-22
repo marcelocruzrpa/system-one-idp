@@ -1,0 +1,28 @@
+# Quotations / estimates.
+required: [quote_number, quote_date, vendor_name, customer_name, total]
+verify_fields: [vendor_name, quote_date, valid_until, subtotal, tax_amount, total]
+lines:
+  descriptions: line_descriptions
+  quantities: line_quantities
+  unit_prices: line_unit_prices
+  amounts: line_amounts
+rules:
+  - {check: totals}
+  - {check: line_sum}
+  - {check: line_math}
+  - {check: date_order, earlier: quote_date, later: valid_until, flag: valid_until_before_issue, optional: true}
+semantic: [not_addressed_to_us]
+fields:
+  quote_number: {type: text, instructions: "The quote or estimate number"}
+  quote_date: {type: date, instructions: "Date the quote was issued"}
+  valid_until: {type: date, instructions: "Date until which the quoted prices are valid"}
+  vendor_name: {type: text, instructions: "Name of the company making the offer (the seller)"}
+  customer_name: {type: text, instructions: "Name of the prospective customer the quote is for"}
+  currency: {type: text, instructions: "ISO currency code of the amounts, e.g. USD or EUR"}
+  subtotal: {type: number, decimals: 2, instructions: "Sum of the line amounts before tax"}
+  tax_amount: {type: number, decimals: 2, instructions: "Total tax amount"}
+  total: {type: number, decimals: 2, instructions: "Quoted grand total including tax"}
+  line_descriptions: {type: list, items: text, instructions: "The description of each quoted line item in the table, one per row, in order. Exclude item/SKU codes, column headers, totals rows, company names and addresses"}
+  line_quantities: {type: list, items: number, decimals: 2, instructions: "Quantity of each quoted line item, in order"}
+  line_unit_prices: {type: list, items: number, decimals: 2, instructions: "Unit price of each quoted line item, in order"}
+  line_amounts: {type: list, items: number, decimals: 2, instructions: "Line total of each quoted line item, in order"}

@@ -1,0 +1,30 @@
+# Purchase orders issued by us to suppliers.
+required: [po_number, po_date, buyer_name, vendor_name, total]
+verify_fields: [po_number, buyer_name, vendor_name, po_date, delivery_date, subtotal, tax_amount, total]
+lines:
+  descriptions: line_descriptions
+  quantities: line_quantities
+  unit_prices: line_unit_prices
+  amounts: line_amounts
+rules:
+  - {check: totals}
+  - {check: line_sum}
+  - {check: line_math}
+  - {check: date_order, earlier: po_date, later: delivery_date, flag: delivery_before_order, optional: true}
+semantic: [not_issued_by_us]
+fields:
+  po_number: {type: text, instructions: "The purchase order number"}
+  po_date: {type: date, instructions: "Date the purchase order was issued"}
+  buyer_name: {type: text, instructions: "Name of the company placing the order (the buyer)"}
+  vendor_name: {type: text, instructions: "Name of the supplier the order is placed with (the vendor)"}
+  delivery_date: {type: date, instructions: "Requested delivery date"}
+  ship_to: {type: text, instructions: "Delivery / ship-to address"}
+  payment_terms: {type: text, instructions: "Payment terms, e.g. Net 30"}
+  currency: {type: text, instructions: "ISO currency code of the amounts, e.g. USD or EUR"}
+  subtotal: {type: number, decimals: 2, instructions: "Sum of the line amounts before tax"}
+  tax_amount: {type: number, decimals: 2, instructions: "Total tax amount"}
+  total: {type: number, decimals: 2, instructions: "Order grand total including tax"}
+  line_descriptions: {type: list, items: text, instructions: "The description of each ordered line item in the table, one per row, in order. Exclude item/SKU codes, column headers, company names and addresses"}
+  line_quantities: {type: list, items: number, decimals: 2, instructions: "Ordered quantity of each line item, in order"}
+  line_unit_prices: {type: list, items: number, decimals: 2, instructions: "Unit price of each ordered line item, in order"}
+  line_amounts: {type: list, items: number, decimals: 2, instructions: "Line total of each ordered line item, in order"}

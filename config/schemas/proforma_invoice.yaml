@@ -1,0 +1,28 @@
+# Pro forma invoices: preliminary bills, not a demand for payment.
+required: [proforma_number, issue_date, vendor_name, bill_to_name, total]
+verify_fields: [vendor_name, issue_date, subtotal, tax_amount, total]
+lines:
+  descriptions: line_descriptions
+  quantities: line_quantities
+  unit_prices: line_unit_prices
+  amounts: line_amounts
+rules:
+  - {check: totals}
+  - {check: line_sum}
+  - {check: line_math}
+  - {check: not_future, fields: [issue_date]}
+semantic: [not_addressed_to_us]
+fields:
+  proforma_number: {type: text, instructions: "The pro forma invoice number"}
+  issue_date: {type: date, instructions: "Date the pro forma invoice was issued"}
+  valid_until: {type: date, instructions: "Date until which the pro forma / offer is valid"}
+  vendor_name: {type: text, instructions: "Name of the company that issued the pro forma (the seller)"}
+  bill_to_name: {type: text, instructions: "Name of the company the pro forma is addressed to (the buyer)"}
+  currency: {type: text, instructions: "ISO currency code of the amounts, e.g. USD or EUR"}
+  subtotal: {type: number, decimals: 2, instructions: "Sum of the line amounts before tax"}
+  tax_amount: {type: number, decimals: 2, instructions: "Total tax amount (sales tax or VAT)"}
+  total: {type: number, decimals: 2, instructions: "Grand total including tax"}
+  line_descriptions: {type: list, items: text, instructions: "The description of each line item in the table, one per row, in order. Exclude item/SKU codes, column headers, totals rows, company names and addresses"}
+  line_quantities: {type: list, items: number, decimals: 2, instructions: "Quantity of each line item, in order"}
+  line_unit_prices: {type: list, items: number, decimals: 2, instructions: "Unit price of each line item, in order"}
+  line_amounts: {type: list, items: number, decimals: 2, instructions: "Line total of each line item, in order"}

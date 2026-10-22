@@ -1,0 +1,684 @@
+{
+  "vendors": [
+    {
+      "vendor_id": "V-1001",
+      "name": "Northwind Supply Co.",
+      "aliases": [],
+      "tax_id": "77-0421953",
+      "currency": "USD",
+      "address": [
+        "455 Industrial Way",
+        "Fremont, CA 94538",
+        "USA"
+      ],
+      "email": "billing@northwind-supply.example"
+    },
+    {
+      "vendor_id": "V-1002",
+      "name": "Helios Components GmbH",
+      "aliases": [],
+      "tax_id": "DE287456913",
+      "currency": "EUR",
+      "address": [
+        "Industriestra\u00dfe 18",
+        "70565 Stuttgart",
+        "Germany"
+      ],
+      "email": "rechnung@helios-components.example"
+    },
+    {
+      "vendor_id": "V-1003",
+      "name": "Bluefin Office Supplies LLC",
+      "aliases": [],
+      "tax_id": "46-5523190",
+      "currency": "USD",
+      "address": [
+        "88 Market Street",
+        "San Jose, CA 95113",
+        "USA"
+      ],
+      "email": "ar@bluefin-office.example"
+    }
+  ],
+  "purchase_orders": [
+    {
+      "po_number": "PO-4501",
+      "vendor_id": "V-1001",
+      "vendor": "Northwind Supply Co.",
+      "currency": "USD",
+      "po_date": "2026-08-24",
+      "delivery_date": "2026-09-08",
+      "payment_terms": "Net 30",
+      "lines": [
+        {
+          "line": 1,
+          "description": "Servo motor MG996R",
+          "quantity": 40,
+          "unit_price": 18.5,
+          "invoiced": 0
+        },
+        {
+          "line": 2,
+          "description": "Stepper driver module TMC2209",
+          "quantity": 60,
+          "unit_price": 6.25,
+          "invoiced": 0
+        },
+        {
+          "line": 3,
+          "description": "Li-ion battery pack 24 V / 10 Ah",
+          "quantity": 12,
+          "unit_price": 189.0,
+          "invoiced": 0
+        }
+      ]
+    },
+    {
+      "po_number": "PO-4502",
+      "vendor_id": "V-1002",
+      "vendor": "Helios Components GmbH",
+      "currency": "EUR",
+      "po_date": "2026-08-18",
+      "delivery_date": "2026-09-15",
+      "payment_terms": "30 days net",
+      "lines": [
+        {
+          "line": 1,
+          "description": "Planetary gearbox PLE60, i=10",
+          "quantity": 6,
+          "unit_price": 412.0,
+          "invoiced": 0
+        },
+        {
+          "line": 2,
+          "description": "Absolute encoder 17-bit AE17",
+          "quantity": 10,
+          "unit_price": 129.5,
+          "invoiced": 0
+        },
+        {
+          "line": 3,
+          "description": "Ball screw SFU1204 L=500mm",
+          "quantity": 8,
+          "unit_price": 74.9,
+          "invoiced": 0
+        }
+      ]
+    },
+    {
+      "po_number": "PO-4503",
+      "vendor_id": "V-1003",
+      "vendor": "Bluefin Office Supplies LLC",
+      "currency": "USD",
+      "po_date": "2026-09-01",
+      "delivery_date": "2026-09-12",
+      "payment_terms": "Net 15",
+      "lines": [
+        {
+          "line": 1,
+          "description": "Ergonomic mesh office chair",
+          "quantity": 8,
+          "unit_price": 245.0,
+          "invoiced": 0
+        },
+        {
+          "line": 2,
+          "description": "Dual monitor arm",
+          "quantity": 8,
+          "unit_price": 89.0,
+          "invoiced": 0
+        },
+        {
+          "line": 3,
+          "description": "Standing desk converter, 32\"",
+          "quantity": 4,
+          "unit_price": 179.0,
+          "invoiced": 0
+        }
+      ]
+    },
+    {
+      "po_number": "PO-4504",
+      "vendor_id": "V-1001",
+      "vendor": "Northwind Supply Co.",
+      "currency": "USD",
+      "po_date": "2026-09-03",
+      "delivery_date": "2026-09-17",
+      "payment_terms": "Net 30",
+      "lines": [
+        {
+          "line": 1,
+          "description": "Aluminum extrusion 2020, 1m",
+          "quantity": 100,
+          "unit_price": 4.8,
+          "invoiced": 0
+        },
+        {
+          "line": 2,
+          "description": "M5x12 socket head screws, box/100",
+          "quantity": 20,
+          "unit_price": 7.4,
+          "invoiced": 0
+        },
+        {
+          "line": 3,
+          "description": "Linear bearing LM8UU",
+          "quantity": 50,
+          "unit_price": 1.95,
+          "invoiced": 0
+        }
+      ]
+    },
+    {
+      "po_number": "PO-4506",
+      "vendor_id": "V-1001",
+      "vendor": "Northwind Supply Co.",
+      "currency": "USD",
+      "po_date": "2026-07-20",
+      "delivery_date": "2026-08-03",
+      "payment_terms": "Net 30",
+      "lines": [
+        {
+          "line": 1,
+          "description": "Brushless DC motor 57BL55",
+          "quantity": 10,
+          "unit_price": 64.0,
+          "invoiced": 0
+        },
+        {
+          "line": 2,
+          "description": "GT2 timing belt 6mm, 10m roll",
+          "quantity": 15,
+          "unit_price": 12.9,
+          "invoiced": 0
+        }
+      ]
+    },
+    {
+      "po_number": "PO-4507",
+      "vendor_id": "V-1003",
+      "vendor": "Bluefin Office Supplies LLC",
+      "currency": "USD",
+      "po_date": "2026-09-20",
+      "delivery_date": "2026-10-02",
+      "payment_terms": "Net 30",
+      "lines": [
+        {
+          "line": 1,
+          "description": "Copy paper Letter 20 lb, case of 10 reams",
+          "quantity": 6,
+          "unit_price": 48.99,
+          "invoiced": 0
+        },
+        {
+          "line": 2,
+          "description": "Ballpoint pens blue, box of 60",
+          "quantity": 4,
+          "unit_price": 14.25,
+          "invoiced": 0
+        },
+        {
+          "line": 3,
+          "description": "Sticky notes 3x3 in, 24 pads",
+          "quantity": 5,
+          "unit_price": 18.4,
+          "invoiced": 0
+        },
+        {
+          "line": 4,
+          "description": "Whiteboard markers, assorted (12)",
+          "quantity": 6,
+          "unit_price": 11.9,
+          "invoiced": 0
+        },
+        {
+          "line": 5,
+          "description": "Stapler heavy duty",
+          "quantity": 3,
+          "unit_price": 32.5,
+          "invoiced": 0
+        },
+        {
+          "line": 6,
+          "description": "Staples standard, 5000 ct",
+          "quantity": 6,
+          "unit_price": 4.75,
+          "invoiced": 0
+        },
+        {
+          "line": 7,
+          "description": "Binder clips medium, 144 ct",
+          "quantity": 4,
+          "unit_price": 9.8,
+          "invoiced": 0
+        },
+        {
+          "line": 8,
+          "description": "Hanging file folders, letter (25)",
+          "quantity": 5,
+          "unit_price": 21.6,
+          "invoiced": 0
+        },
+        {
+          "line": 9,
+          "description": "Desk organizer mesh",
+          "quantity": 8,
+          "unit_price": 16.99,
+          "invoiced": 0
+        },
+        {
+          "line": 10,
+          "description": "Notebooks A5 ruled (pack of 5)",
+          "quantity": 10,
+          "unit_price": 12.49,
+          "invoiced": 0
+        },
+        {
+          "line": 11,
+          "description": "Toner cartridge HP 58A",
+          "quantity": 4,
+          "unit_price": 112.0,
+          "invoiced": 0
+        },
+        {
+          "line": 12,
+          "description": "Toner cartridge HP 58X high yield",
+          "quantity": 2,
+          "unit_price": 189.0,
+          "invoiced": 0
+        },
+        {
+          "line": 13,
+          "description": "Ink cartridge Epson 252 black",
+          "quantity": 6,
+          "unit_price": 24.99,
+          "invoiced": 0
+        },
+        {
+          "line": 14,
+          "description": "Label maker tape 12 mm",
+          "quantity": 8,
+          "unit_price": 13.75,
+          "invoiced": 0
+        },
+        {
+          "line": 15,
+          "description": "USB-C hub 7-in-1",
+          "quantity": 6,
+          "unit_price": 39.9,
+          "invoiced": 0
+        },
+        {
+          "line": 16,
+          "description": "Wireless mouse",
+          "quantity": 12,
+          "unit_price": 21.99,
+          "invoiced": 0
+        },
+        {
+          "line": 17,
+          "description": "Keyboard wired full size",
+          "quantity": 6,
+          "unit_price": 29.5,
+          "invoiced": 0
+        },
+        {
+          "line": 18,
+          "description": "Laptop stand aluminum",
+          "quantity": 8,
+          "unit_price": 34.95,
+          "invoiced": 0
+        },
+        {
+          "line": 19,
+          "description": "LED desk lamp",
+          "quantity": 8,
+          "unit_price": 42.0,
+          "invoiced": 0
+        },
+        {
+          "line": 20,
+          "description": "Cable management tray",
+          "quantity": 10,
+          "unit_price": 27.8,
+          "invoiced": 0
+        },
+        {
+          "line": 21,
+          "description": "Surge protector 8 outlet",
+          "quantity": 10,
+          "unit_price": 24.4,
+          "invoiced": 0
+        },
+        {
+          "line": 22,
+          "description": "HDMI cable 2 m",
+          "quantity": 15,
+          "unit_price": 7.95,
+          "invoiced": 0
+        },
+        {
+          "line": 23,
+          "description": "Ethernet cable Cat6 3 m",
+          "quantity": 20,
+          "unit_price": 5.6,
+          "invoiced": 0
+        },
+        {
+          "line": 24,
+          "description": "Shredder cross-cut 12 sheet",
+          "quantity": 1,
+          "unit_price": 219.0,
+          "invoiced": 0
+        },
+        {
+          "line": 25,
+          "description": "Paper towels, case of 12",
+          "quantity": 4,
+          "unit_price": 31.2,
+          "invoiced": 0
+        },
+        {
+          "line": 26,
+          "description": "Hand sanitizer 1 L",
+          "quantity": 6,
+          "unit_price": 9.95,
+          "invoiced": 0
+        },
+        {
+          "line": 27,
+          "description": "Coffee pods medium roast (96)",
+          "quantity": 5,
+          "unit_price": 52.9,
+          "invoiced": 0
+        },
+        {
+          "line": 28,
+          "description": "Disposable cups 12 oz (500)",
+          "quantity": 2,
+          "unit_price": 44.8,
+          "invoiced": 0
+        },
+        {
+          "line": 29,
+          "description": "Trash bags 33 gal (100)",
+          "quantity": 3,
+          "unit_price": 26.7,
+          "invoiced": 0
+        },
+        {
+          "line": 30,
+          "description": "First aid kit 100 pc",
+          "quantity": 2,
+          "unit_price": 38.6,
+          "invoiced": 0
+        },
+        {
+          "line": 31,
+          "description": "Fire-resistant document box",
+          "quantity": 1,
+          "unit_price": 89.99,
+          "invoiced": 0
+        },
+        {
+          "line": 32,
+          "description": "Visitor badge holders (50)",
+          "quantity": 2,
+          "unit_price": 17.3,
+          "invoiced": 0
+        }
+      ]
+    }
+  ],
+  "goods_receipts": [
+    {
+      "gr_number": "GR-5001",
+      "po_number": "PO-4501",
+      "posted_on": "2026-09-08",
+      "lines": [
+        {
+          "line": 1,
+          "received": 40
+        },
+        {
+          "line": 2,
+          "received": 60
+        },
+        {
+          "line": 3,
+          "received": 12
+        }
+      ]
+    },
+    {
+      "gr_number": "GR-5002",
+      "po_number": "PO-4502",
+      "posted_on": "2026-09-15",
+      "lines": [
+        {
+          "line": 1,
+          "received": 6
+        },
+        {
+          "line": 2,
+          "received": 8
+        },
+        {
+          "line": 3,
+          "received": 8
+        }
+      ]
+    },
+    {
+      "gr_number": "GR-5003",
+      "po_number": "PO-4503",
+      "posted_on": "2026-09-12",
+      "lines": [
+        {
+          "line": 1,
+          "received": 8
+        },
+        {
+          "line": 2,
+          "received": 8
+        },
+        {
+          "line": 3,
+          "received": 4
+        }
+      ]
+    },
+    {
+      "gr_number": "GR-5004",
+      "po_number": "PO-4504",
+      "posted_on": "2026-09-17",
+      "lines": [
+        {
+          "line": 1,
+          "received": 100
+        },
+        {
+          "line": 2,
+          "received": 20
+        },
+        {
+          "line": 3,
+          "received": 50
+        }
+      ]
+    },
+    {
+      "gr_number": "GR-5005",
+      "po_number": "PO-4506",
+      "posted_on": "2026-08-03",
+      "lines": [
+        {
+          "line": 1,
+          "received": 10
+        },
+        {
+          "line": 2,
+          "received": 15
+        }
+      ]
+    },
+    {
+      "gr_number": "GR-5006",
+      "po_number": "PO-4507",
+      "posted_on": "2026-10-02",
+      "lines": [
+        {
+          "line": 1,
+          "received": 6
+        },
+        {
+          "line": 2,
+          "received": 4
+        },
+        {
+          "line": 3,
+          "received": 5
+        },
+        {
+          "line": 4,
+          "received": 6
+        },
+        {
+          "line": 5,
+          "received": 3
+        },
+        {
+          "line": 6,
+          "received": 6
+        },
+        {
+          "line": 7,
+          "received": 4
+        },
+        {
+          "line": 8,
+          "received": 5
+        },
+        {
+          "line": 9,
+          "received": 8
+        },
+        {
+          "line": 10,
+          "received": 10
+        },
+        {
+          "line": 11,
+          "received": 4
+        },
+        {
+          "line": 12,
+          "received": 2
+        },
+        {
+          "line": 13,
+          "received": 6
+        },
+        {
+          "line": 14,
+          "received": 8
+        },
+        {
+          "line": 15,
+          "received": 6
+        },
+        {
+          "line": 16,
+          "received": 12
+        },
+        {
+          "line": 17,
+          "received": 6
+        },
+        {
+          "line": 18,
+          "received": 8
+        },
+        {
+          "line": 19,
+          "received": 8
+        },
+        {
+          "line": 20,
+          "received": 10
+        },
+        {
+          "line": 21,
+          "received": 10
+        },
+        {
+          "line": 22,
+          "received": 15
+        },
+        {
+          "line": 23,
+          "received": 20
+        },
+        {
+          "line": 24,
+          "received": 1
+        },
+        {
+          "line": 25,
+          "received": 4
+        },
+        {
+          "line": 26,
+          "received": 6
+        },
+        {
+          "line": 27,
+          "received": 5
+        },
+        {
+          "line": 28,
+          "received": 2
+        },
+        {
+          "line": 29,
+          "received": 3
+        },
+        {
+          "line": 30,
+          "received": 2
+        },
+        {
+          "line": 31,
+          "received": 1
+        },
+        {
+          "line": 32,
+          "received": 2
+        }
+      ]
+    }
+  ],
+  "posted_invoices": [
+    {
+      "invoice_number": "INV-NW-10198",
+      "vendor_id": "V-1001",
+      "vendor": "Northwind Supply Co.",
+      "amount": "USD 904.35",
+      "posted_on": "2026-08-07"
+    },
+    {
+      "invoice_number": "RE-2026-0398",
+      "vendor_id": "V-1002",
+      "vendor": "Helios Components GmbH",
+      "amount": "EUR 3,120.00",
+      "posted_on": "2026-07-10"
+    },
+    {
+      "invoice_number": "INV-BF-0087",
+      "vendor_id": "V-1003",
+      "vendor": "Bluefin Office Supplies LLC",
+      "amount": "USD 1,486.22",
+      "posted_on": "2026-08-21"
+    }
+  ]
+}

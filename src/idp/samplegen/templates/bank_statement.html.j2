@@ -1,0 +1,40 @@
+{% extends "_base.html.j2" %}
+{% block style %}
+  header { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 10px; border-bottom: 2px solid #0b3d2e; }
+  .bank { font-size: 20pt; font-weight: 700; color: #0b3d2e; }
+  .holder { margin-top: 18px; }
+  .acct { text-align: right; }
+  .summary { margin-top: 18px; width: 100%; }
+  .summary td, .summary th { border: 1px solid #cbd5e1; padding: 6px 10px; }
+  .summary th { background: #ecfdf5; text-align: left; }
+  table.tx { width: 100%; margin-top: 18px; }
+  table.tx th { border-bottom: 1.5px solid #0b3d2e; padding: 6px; text-align: left; font-size: 8.5pt; }
+  table.tx th.num { text-align: right; }
+  table.tx td { border-bottom: 1px solid #e5e7eb; padding: 6px; font-size: 9pt; }
+  h2 { font-size: 11pt; margin: 22px 0 0; }
+  .fine { margin-top: 26px; font-size: 7.5pt; color: #6b7280; }
+{% endblock %}
+{% block body %}
+<header>
+  <div><div class="bank">{{ bank }}</div><div class="muted">Member FDIC · Customer service 1-800-555-0123</div></div>
+  <div class="acct"><div><b>{{ product }} Statement</b></div><div>Account number: {{ account }}</div><div>{{ period }}</div></div>
+</header>
+<div class="holder">{% for l in holder %}<div>{{ l }}</div>{% endfor %}</div>
+{% macro summary() %}
+<table class="summary">
+  <tr><th>Beginning balance</th><th>Deposits and other credits ({{ n_credits }})</th><th>Withdrawals and other debits ({{ n_debits }})</th><th>Ending balance</th></tr>
+  <tr><td class="num">${{ opening }}</td><td class="num">${{ credits }}</td><td class="num">${{ debits }}</td><td class="num">${{ closing }}</td></tr>
+</table>
+{% endmacro %}
+{% if variant == "summary_top" %}<h2>Account summary</h2>{{ summary() }}{% endif %}
+<h2>Transaction detail</h2>
+<table class="tx">
+  <thead><tr><th>Date</th><th>Description</th><th class="num">Withdrawals</th><th class="num">Deposits</th><th class="num">Balance</th></tr></thead>
+  <tbody>
+    <tr><td>09/01</td><td>Beginning balance</td><td></td><td></td><td class="num">{{ opening }}</td></tr>
+    {% for r in rows %}<tr><td>{{ r[0] }}</td><td>{{ r[1] }}</td><td class="num">{{ r[2] }}</td><td class="num">{{ r[3] }}</td><td class="num">{{ r[4] }}</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% if variant == "summary_bottom" %}<h2>Account summary</h2>{{ summary() }}{% endif %}
+<p class="fine">All amounts in USD. Please examine this statement promptly and report any discrepancies within 30 days.</p>
+{% endblock %}

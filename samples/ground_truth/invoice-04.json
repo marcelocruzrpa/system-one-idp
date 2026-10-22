@@ -1,0 +1,47 @@
+{
+  "doc_id": "invoice-04",
+  "doc_type": "invoice",
+  "note": "Printed total is 100.00 higher than subtotal + tax",
+  "pages": 1,
+  "fields": {
+    "invoice_number": "INV-NW-10240",
+    "issue_date": "2026-09-22",
+    "due_date": "2026-10-22",
+    "vendor_name": "Northwind Supply Co.",
+    "vendor_tax_id": "77-0421953",
+    "bill_to_name": "Acme Robotics Inc.",
+    "po_number": "PO-4504",
+    "currency": "USD",
+    "payment_terms": "Net 30",
+    "subtotal": 725.5,
+    "tax_amount": 61.67,
+    "total": 887.17,
+    "line_descriptions": [
+      "2020 aluminum extrusion profile 1000 mm",
+      "Socket head cap screw M5 x 12 (100/box)",
+      "LM8UU linear ball bearing"
+    ],
+    "line_quantities": [
+      100.0,
+      20.0,
+      50.0
+    ],
+    "line_unit_prices": [
+      4.8,
+      7.4,
+      1.95
+    ],
+    "line_amounts": [
+      480.0,
+      148.0,
+      97.5
+    ]
+  },
+  "expected_flags": [
+    "total_mismatch"
+  ],
+  "expected_route": "review",
+  "links": {
+    "po": "PO-4504"
+  }
+}

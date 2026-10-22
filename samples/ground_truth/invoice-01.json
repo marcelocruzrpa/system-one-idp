@@ -1,0 +1,45 @@
+{
+  "doc_id": "invoice-01",
+  "doc_type": "invoice",
+  "note": "Clean invoice; matches PO-4501 and its full delivery",
+  "pages": 1,
+  "fields": {
+    "invoice_number": "INV-NW-10231",
+    "issue_date": "2026-09-10",
+    "due_date": "2026-10-10",
+    "vendor_name": "Northwind Supply Co.",
+    "vendor_tax_id": "77-0421953",
+    "bill_to_name": "Acme Robotics Inc.",
+    "po_number": "PO-4501",
+    "currency": "USD",
+    "payment_terms": "Net 30",
+    "subtotal": 3383.0,
+    "tax_amount": 287.56,
+    "total": 3670.56,
+    "line_descriptions": [
+      "MG-996R High-Torque Servo Motor",
+      "TMC2209 Stepper Motor Driver Module",
+      "Lithium Battery Pack 24V 10Ah"
+    ],
+    "line_quantities": [
+      40.0,
+      60.0,
+      12.0
+    ],
+    "line_unit_prices": [
+      18.5,
+      6.25,
+      189.0
+    ],
+    "line_amounts": [
+      740.0,
+      375.0,
+      2268.0
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {
+    "po": "PO-4501"
+  }
+}

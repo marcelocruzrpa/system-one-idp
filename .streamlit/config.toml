@@ -1,0 +1,17 @@
+# Streamlit settings for the demo (app/streamlit_app.py). Streamlit reads this file from the working directory, so
+# start the app from the repository root: `uv run streamlit run app/streamlit_app.py`.
+# The app shows documents and model responses, so it stays local: the server binds to localhost only, sends no
+# usage statistics, and error pages show the exception type but not source lines or values.
+
+[server]
+address = "localhost"
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[client]
+showErrorDetails = "type"
+
+[theme]
+base = "light"

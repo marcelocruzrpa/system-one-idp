@@ -1,0 +1,28 @@
+{% extends "_base.html.j2" %}
+{% block style %}
+  h1 { font-size: 20pt; margin: 0 0 4px; color: #1e3a8a; }
+  .top { display: flex; justify-content: space-between; margin-top: 14px; }
+  .label { font-size: 8pt; text-transform: uppercase; letter-spacing: .08em; color: #6b7280; }
+  table.meta th { text-align: left; padding: 2px 12px 2px 0; }
+  table.inv { width: 100%; margin-top: 22px; }
+  table.inv th { background: #1e3a8a; color: #fff; padding: 7px; text-align: left; font-size: 8.5pt; }
+  table.inv th.num { text-align: right; }
+  table.inv td { border-bottom: 1px solid #e5e7eb; padding: 7px; }
+  .total { text-align: right; font-size: 12pt; font-weight: 700; margin-top: 12px; }
+{% endblock %}
+{% block body %}
+<h1>REMITTANCE ADVICE</h1>
+<div class="muted">Notification of payment</div>
+<div class="top">
+  <div><div class="label">From (payer)</div>{% for l in payer %}<div>{{ l }}</div>{% endfor %}</div>
+  <div><div class="label">To (payee)</div>{% for l in payee %}<div>{{ l }}</div>{% endfor %}</div>
+  <table class="meta">{% for k, v in meta %}<tr><th>{{ k }}</th><td>{{ v }}</td></tr>{% endfor %}</table>
+</div>
+<p>We have initiated payment for the invoices listed below. Please apply it to our account.</p>
+<table class="inv">
+  <thead><tr><th>Invoice No.</th><th>Invoice date</th><th class="num">Invoice amount</th><th class="num">Deduction</th><th class="num">Amount paid</th><th>Remarks</th></tr></thead>
+  <tbody>{% for r in rows %}<tr><td>{{ r[0] }}</td><td>{{ r[1] }}</td><td class="num">{{ r[2] }}</td><td class="num">{{ r[3] }}</td><td class="num">{{ r[4] }}</td><td>{{ r[5] }}</td></tr>{% endfor %}</tbody>
+</table>
+<div class="total">Total payment: USD {{ total }}</div>
+<p class="muted" style="margin-top: 30px">Questions about this payment? Contact accounts payable and quote the payment reference.</p>
+{% endblock %}

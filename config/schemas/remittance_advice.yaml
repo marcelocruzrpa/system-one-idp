@@ -1,0 +1,19 @@
+# Remittance advices received from customers paying us.
+required: [payer_name, payee_name, payment_date, payment_total]
+verify_fields: [payer_name, payee_name, payment_date, payment_total]
+lines:
+  descriptions: invoice_numbers
+  amounts: paid_amounts
+rules:
+  - {check: remittance_sum}
+  - {check: not_future, fields: [payment_date]}
+semantic: [not_addressed_to_us, short_payment]
+fields:
+  payer_name: {type: text, instructions: "Name of the company sending the payment"}
+  payee_name: {type: text, instructions: "Name of the company receiving the payment"}
+  payment_date: {type: date, instructions: "Date the payment was made"}
+  payment_reference: {type: text, instructions: "Payment or transfer reference number"}
+  currency: {type: text, instructions: "ISO currency code of the payment"}
+  payment_total: {type: number, decimals: 2, instructions: "Total amount paid"}
+  invoice_numbers: {type: list, items: text, instructions: "The complete invoice number in the first column of each row of the payments table, exactly as printed, one per row, in order. Exclude the payment reference, dates and amounts"}
+  paid_amounts: {type: list, items: number, decimals: 2, instructions: "Amount paid against each invoice, in order"}

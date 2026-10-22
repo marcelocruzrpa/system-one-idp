@@ -1,0 +1,21 @@
+{
+  "doc_id": "bank_statement-01",
+  "doc_type": "bank_statement",
+  "note": "Business Checking statement",
+  "pages": 1,
+  "fields": {
+    "bank_name": "First Harbor Bank",
+    "account_holder": "Acme Robotics Inc.",
+    "account_number": "****9083",
+    "currency": "USD",
+    "period_start": "2026-09-01",
+    "period_end": "2026-09-30",
+    "opening_balance": 184220.15,
+    "total_credits": 39173.12,
+    "total_debits": 117846.52,
+    "closing_balance": 105546.75
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {}
+}

@@ -1,0 +1,103 @@
+{% extends "_base.html.j2" %}
+{% block style %}
+  :root { --accent: {{ accent }}; }
+  .doc { position: relative; }
+  h1 { margin: 0; letter-spacing: .04em; }
+  .brand { font-size: 18pt; font-weight: 700; color: var(--accent); }
+  .block-h { font-size: 8pt; text-transform: uppercase; letter-spacing: .08em; color: #6b7280; margin-bottom: 3px; }
+  table.meta th { text-align: left; font-weight: 600; padding: 2px 12px 2px 0; color: #374151; }
+  table.meta td { padding: 2px 0; }
+  table.lines { width: 100%; margin-top: 18px; }
+  table.lines th { font-size: 8.5pt; text-align: left; padding: 7px 8px; }
+  table.lines td { padding: 7px 8px; vertical-align: top; }
+  table.lines th.num { text-align: right; }
+  table.totals { margin: 14px 0 0 auto; min-width: 46%; page-break-inside: avoid; }
+  table.totals th { text-align: left; font-weight: 500; padding: 4px 16px 4px 0; }
+  table.totals td { text-align: right; padding: 4px 0; white-space: nowrap; }
+  table.totals tr.strong th, table.totals tr.strong td { font-weight: 700; font-size: 11.5pt; border-top: 2px solid var(--accent); padding-top: 7px; }
+  p.note { margin: 16px 0 0; font-size: 9pt; }
+  footer { margin-top: 28px; padding-top: 8px; border-top: 1px solid #d1d5db; font-size: 7.5pt; color: #6b7280; }
+  .stamp { position: absolute; top: 222px; right: 60px; transform: rotate(-14deg); border: 4px double #c81e1e;
+           color: #c81e1e; font-size: 26pt; font-weight: 800; padding: 6px 18px; letter-spacing: .08em; opacity: .85; }
+
+  /* classic: colored band header, boxed parties, shaded table header */
+  .classic header { display: flex; justify-content: space-between; border-top: 10px solid var(--accent); padding-top: 14px; }
+  .classic h1 { font-size: 24pt; color: var(--accent); text-align: right; margin-bottom: 8px; }
+  .classic .parties { display: flex; gap: 16px; margin-top: 20px; }
+  .classic .party { flex: 1; border: 1px solid #d1d5db; border-radius: 4px; padding: 10px 12px; }
+  .classic table.lines thead th { background: var(--accent); color: #fff; }
+  .classic table.lines tbody tr:nth-child(even) td { background: #f3f4f6; }
+
+  /* eu: DIN-5008-like sender line + address window, info block on the right */
+  .eu { font-size: 9.5pt; }
+  .eu .brand { text-align: right; }
+  .eu .sender-line { font-size: 7pt; color: #6b7280; border-bottom: 1px solid #9ca3af; display: inline-block; margin-top: 26px; }
+  .eu .eu-top { display: flex; justify-content: space-between; margin-top: 4px; }
+  .eu .window { width: 85mm; min-height: 38mm; padding-top: 4px; }
+  .eu .info { text-align: right; font-size: 8.5pt; color: #374151; }
+  .eu h1 { font-size: 16pt; margin-top: 18px; }
+  .eu table.lines thead th { border-top: 1.5px solid #111827; border-bottom: 1.5px solid #111827; }
+  .eu table.lines tbody td { border-bottom: 1px solid #e5e7eb; }
+
+  /* minimal: airy, no boxes, thin separators */
+  .minimal header { display: flex; justify-content: space-between; align-items: flex-start; }
+  .minimal h1 { font-size: 30pt; font-weight: 300; color: #111827; }
+  .minimal .parties { display: flex; gap: 40px; margin-top: 26px; }
+  .minimal table.meta { margin-top: 10px; }
+  .minimal table.lines thead th { border-bottom: 2px solid var(--accent); color: var(--accent); }
+  .minimal table.lines tbody td { border-bottom: 1px solid #e5e7eb; }
+{% endblock %}
+{% block body %}
+<div class="doc {{ layout }}">
+{% if layout == "eu" %}
+  <div class="brand">{{ issuer.name }}</div>
+  <div class="sender-line">{{ issuer.name }} · {{ issuer.address | join(" · ") }}</div>
+  <div class="eu-top">
+    <div class="window">
+      {% for b in blocks %}<div class="block-h">{{ b.heading }}</div>{% for l in b.lines %}<div>{{ l }}</div>{% endfor %}{% endfor %}
+    </div>
+    <div class="info">
+      {% for l in issuer.address %}<div>{{ l }}</div>{% endfor %}
+      {% if issuer.tax_line %}<div>{{ issuer.tax_line }}</div>{% endif %}
+      {% for l in issuer.contact %}<div>{{ l }}</div>{% endfor %}
+      <table class="meta" style="margin: 10px 0 0 auto;">
+        {% for k, v in meta %}<tr><th>{{ k }}</th><td>{{ v }}</td></tr>{% endfor %}
+      </table>
+    </div>
+  </div>
+  <h1>{{ title }}</h1>
+{% else %}
+  <header>
+    <div class="issuer">
+      <div class="brand">{{ issuer.name }}</div>
+      {% for l in issuer.address %}<div>{{ l }}</div>{% endfor %}
+      {% if issuer.tax_line %}<div>{{ issuer.tax_line }}</div>{% endif %}
+      {% for l in issuer.contact %}<div class="muted">{{ l }}</div>{% endfor %}
+    </div>
+    <div>
+      <h1>{{ title }}</h1>
+      <table class="meta">
+        {% for k, v in meta %}<tr><th>{{ k }}</th><td>{{ v }}</td></tr>{% endfor %}
+      </table>
+    </div>
+  </header>
+  <section class="parties">
+    {% for b in blocks %}
+    <div class="party"><div class="block-h">{{ b.heading }}</div>{% for l in b.lines %}<div>{{ l }}</div>{% endfor %}</div>
+    {% endfor %}
+  </section>
+{% endif %}
+  <table class="lines">
+    <thead><tr>{% for c in columns %}<th class="{{ 'num' if loop.revindex <= 3 else '' }}">{{ c }}</th>{% endfor %}</tr></thead>
+    <tbody>
+      {% for r in rows %}<tr>{% for c in r %}<td class="{{ 'num' if loop.revindex <= 3 else '' }}">{{ c }}</td>{% endfor %}</tr>{% endfor %}
+    </tbody>
+  </table>
+  <table class="totals">
+    {% for t in totals %}<tr class="{{ 'strong' if t.get('strong') else '' }}"><th>{{ t.label }}</th><td>{{ t.value }}</td></tr>{% endfor %}
+  </table>
+  {% for n in notes %}<p class="note">{{ n }}</p>{% endfor %}
+  {% if stamp %}<div class="stamp">{{ stamp }}</div>{% endif %}
+  {% if footer %}<footer>{% for f in footer %}<div>{{ f }}</div>{% endfor %}</footer>{% endif %}
+</div>
+{% endblock %}

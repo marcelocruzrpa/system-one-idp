@@ -1,0 +1,42 @@
+# Business policy and decision thresholds. Tune thresholds with `idp eval`.
+
+our_company:
+  name: Acme Robotics Inc.
+  aliases: [Acme Robotics, ACME Robotics Inc, Acme Robotics Incorporated]
+  address: 1200 Harbor Point Blvd, Suite 400, Oakland, CA 94607, USA
+  tax_id: "94-3187265"              # our own EIN: a vendor tax id equal to it was read from the bill-to block
+
+models:
+  # Pinned on purpose: aliases (jev-latest, jev-preview) move when TypeSafe ships a release, and the thresholds below,
+  # the response cache and the eval scorecards were all produced by this version (on 2026-10-22 `jev-latest` answered
+  # as jev-1.14.0 while the docs still mapped it to 1.13.0). 1.13 and 1.14 both read images behind the Danger Zone
+  # header. Changing the name invalidates .cache/jev (the model name is part of the cache key).
+  jev: jev-1.14.0
+  clairic: "@cf/cloudflare/clairic"
+
+thresholds:
+  classify_min_confidence: 0.80   # Jev Choice confidence below this -> review
+  field_min_confidence: 0.60      # Clairic confidence below this on a required field -> review
+  field_max_p_null: 0.50          # Clairic p_null above this on a required field -> missing
+  rule_input_min_confidence: 0.50 # an arithmetic rule that FAILS on a value read below this reports unverified:<rule>
+                                  # (the extraction, not the document, is the likely error); a rule that reconciles passes
+  semantic_flag: 0.70             # Jev Noul ("true" = problem) at/above this raises the flag
+  line_match_min_confidence: 0.60 # Jev line-matching Choice below this -> unverified:line_match (review), not a mismatch
+
+tolerances:
+  amount_abs: 0.01                # currency rounding tolerance
+  price_pct: 0.02                 # invoice vs PO unit price tolerance (2%)
+  quantity_abs: 0.000001          # float slack when quantities split across lines are summed (hours, kg)
+
+require_po_for_invoices: true
+
+# Flags that send a document straight to reject; any other flag sends it to review.
+reject_flags: [not_addressed_to_us, duplicate_invoice]
+
+# Pricing for the cost metrics in `idp run`, the app and the eval scorecard (USD per million input tokens).
+# clairic: developers.cloudflare.com/workers-ai/platform/pricing ($0.10 per M input tokens, retrieved 2026-10-22).
+# jev: assumed; TypeSafe publishes no price list (docs.typesafe.ai/models lists the models, not prices).
+# Output tokens are not priced (Clairic reports none); OCR runs locally and is not included.
+pricing_per_million_input:
+  jev: 0.042
+  clairic: 0.10

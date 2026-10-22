@@ -1,0 +1,35 @@
+{
+  "doc_id": "credit_note-01",
+  "doc_type": "credit_note",
+  "note": "Clean credit note for a posted invoice",
+  "pages": 1,
+  "fields": {
+    "credit_note_number": "CN-NW-0042",
+    "issue_date": "2026-08-28",
+    "vendor_name": "Northwind Supply Co.",
+    "customer_name": "Acme Robotics Inc.",
+    "original_invoice_number": "INV-NW-10198",
+    "reason": "Return of 2 timing belts (wrong width)",
+    "currency": "USD",
+    "subtotal": 25.8,
+    "tax_amount": 2.19,
+    "total": 27.99,
+    "line_descriptions": [
+      "GT2 timing belt 6mm, 10m roll - returned"
+    ],
+    "line_quantities": [
+      2.0
+    ],
+    "line_unit_prices": [
+      12.9
+    ],
+    "line_amounts": [
+      25.8
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {
+    "invoice": "INV-NW-10198"
+  }
+}

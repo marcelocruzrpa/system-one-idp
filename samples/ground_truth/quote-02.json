@@ -1,0 +1,40 @@
+{
+  "doc_id": "quote-02",
+  "doc_type": "quote",
+  "note": "Quote (nothing owed yet)",
+  "pages": 1,
+  "fields": {
+    "quote_number": "EST-BF-7745",
+    "quote_date": "2026-10-01",
+    "valid_until": "2026-10-31",
+    "vendor_name": "Bluefin Office Supplies LLC",
+    "customer_name": "Acme Robotics Inc.",
+    "currency": "USD",
+    "subtotal": 3590.0,
+    "tax_amount": 336.56,
+    "total": 3926.56,
+    "line_descriptions": [
+      "Conference table 10 ft, walnut",
+      "Conference chair, upholstered",
+      "Delivery and installation"
+    ],
+    "line_quantities": [
+      1.0,
+      10.0,
+      1.0
+    ],
+    "line_unit_prices": [
+      1450.0,
+      189.0,
+      250.0
+    ],
+    "line_amounts": [
+      1450.0,
+      1890.0,
+      250.0
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {}
+}

@@ -1,0 +1,36 @@
+{
+  "doc_id": "receipt-02",
+  "doc_type": "receipt",
+  "note": "Restaurant receipt including alcohol",
+  "pages": 1,
+  "fields": {
+    "merchant_name": "HARBOR GRILL & TAPROOM",
+    "transaction_date": "2026-10-14",
+    "transaction_time": "19:47",
+    "currency": "USD",
+    "subtotal": 63.0,
+    "tax_amount": 6.46,
+    "total": 69.46,
+    "payment_method": "MASTERCARD",
+    "card_last4": "7730",
+    "item_descriptions": [
+      "Grilled salmon",
+      "Caesar salad",
+      "Hazy IPA draft",
+      "Hazy IPA draft",
+      "Sparkling water"
+    ],
+    "item_amounts": [
+      28.0,
+      14.5,
+      8.0,
+      8.0,
+      4.5
+    ]
+  },
+  "expected_flags": [
+    "non_reimbursable_items"
+  ],
+  "expected_route": "review",
+  "links": {}
+}

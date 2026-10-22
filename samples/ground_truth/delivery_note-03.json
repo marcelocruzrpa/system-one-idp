@@ -1,0 +1,33 @@
+{
+  "doc_id": "delivery_note-03",
+  "doc_type": "delivery_note",
+  "note": "Full delivery for PO-4503",
+  "pages": 1,
+  "fields": {
+    "delivery_note_number": "DN-BF-553",
+    "delivery_date": "2026-09-11",
+    "supplier_name": "Bluefin Office Supplies LLC",
+    "customer_name": "Acme Robotics Inc.",
+    "po_number": "PO-4503",
+    "line_descriptions": [
+      "Ergonomic mesh chair",
+      "Dual monitor arm",
+      "Desk converter 32 in"
+    ],
+    "line_ordered_quantities": [
+      8.0,
+      8.0,
+      4.0
+    ],
+    "line_shipped_quantities": [
+      8.0,
+      8.0,
+      4.0
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {
+    "po": "PO-4503"
+  }
+}

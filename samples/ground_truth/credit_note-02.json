@@ -1,0 +1,41 @@
+{
+  "doc_id": "credit_note-02",
+  "doc_type": "credit_note",
+  "note": "Printed subtotal 185.00 but lines sum to 175.00",
+  "pages": 1,
+  "fields": {
+    "credit_note_number": "GS-2026-0031",
+    "issue_date": "2026-10-02",
+    "vendor_name": "Helios Components GmbH",
+    "customer_name": "Acme Robotics Inc.",
+    "original_invoice_number": "RE-2026-0398",
+    "reason": "Agreed price adjustment and freight refund",
+    "currency": "EUR",
+    "subtotal": 185.0,
+    "tax_amount": 0.0,
+    "total": 185.0,
+    "line_descriptions": [
+      "Price adjustment absolute encoder AE17 (agreed discount)",
+      "Refund of freight overcharge"
+    ],
+    "line_quantities": [
+      20.0,
+      1.0
+    ],
+    "line_unit_prices": [
+      6.5,
+      45.0
+    ],
+    "line_amounts": [
+      130.0,
+      45.0
+    ]
+  },
+  "expected_flags": [
+    "line_sum_mismatch"
+  ],
+  "expected_route": "review",
+  "links": {
+    "invoice": "RE-2026-0398"
+  }
+}

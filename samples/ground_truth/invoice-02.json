@@ -1,0 +1,47 @@
+{
+  "doc_id": "invoice-02",
+  "doc_type": "invoice",
+  "note": "Bills 10 encoders but only 8 were received (short shipment on DN-HE-2210)",
+  "pages": 1,
+  "fields": {
+    "invoice_number": "RE-2026-0457",
+    "issue_date": "2026-09-16",
+    "due_date": "2026-10-16",
+    "vendor_name": "Helios Components GmbH",
+    "vendor_tax_id": "DE287456913",
+    "bill_to_name": "Acme Robotics Inc.",
+    "po_number": "PO-4502",
+    "currency": "EUR",
+    "payment_terms": "30 days net",
+    "subtotal": 4366.2,
+    "tax_amount": 0.0,
+    "total": 4366.2,
+    "line_descriptions": [
+      "Planetengetriebe / Planetary gearbox PLE60 ratio 10:1",
+      "Absolute encoder AE-17, 17 bit",
+      "Precision ball screw SFU1204, length 500 mm"
+    ],
+    "line_quantities": [
+      6.0,
+      10.0,
+      8.0
+    ],
+    "line_unit_prices": [
+      412.0,
+      129.5,
+      74.9
+    ],
+    "line_amounts": [
+      2472.0,
+      1295.0,
+      599.2
+    ]
+  },
+  "expected_flags": [
+    "qty_exceeds_received"
+  ],
+  "expected_route": "review",
+  "links": {
+    "po": "PO-4502"
+  }
+}

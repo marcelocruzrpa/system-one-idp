@@ -1,0 +1,236 @@
+{
+  "documents": 25,
+  "documents_failed": 0,
+  "errors": [],
+  "classification_accuracy": 1.0,
+  "misclassified": {},
+  "field_accuracy": 0.9873628526645768,
+  "scalar_field_accuracy": 0.9831932773109243,
+  "list_field_accuracy": 0.9996141975308642,
+  "list_items": {
+    "recall": 0.9969788519637462,
+    "precision": 0.9969788519637462,
+    "extra_items": 1,
+    "missing_items": 1
+  },
+  "abstained": 0,
+  "field_accuracy_by_type": {
+    "bank_statement": 0.95,
+    "credit_note": 1.0,
+    "delivery_note": 1.0,
+    "invoice": 1.0,
+    "proforma_invoice": 1.0,
+    "purchase_order": 0.956,
+    "quote": 1.0,
+    "receipt": 0.955,
+    "remittance_advice": 1.0
+  },
+  "weakest_fields": [
+    [
+      "purchase_order.ship_to",
+      0.333
+    ],
+    [
+      "receipt.card_last4",
+      0.5
+    ],
+    [
+      "bank_statement.total_debits",
+      0.5
+    ],
+    [
+      "invoice.line_descriptions",
+      0.996
+    ],
+    [
+      "invoice.invoice_number",
+      1.0
+    ],
+    [
+      "invoice.issue_date",
+      1.0
+    ],
+    [
+      "invoice.due_date",
+      1.0
+    ],
+    [
+      "invoice.vendor_name",
+      1.0
+    ],
+    [
+      "invoice.vendor_tax_id",
+      1.0
+    ],
+    [
+      "invoice.bill_to_name",
+      1.0
+    ]
+  ],
+  "flags": {
+    "tp": 13,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "per_flag": {
+      "already_paid": {
+        "tp": 1
+      },
+      "bank_detail_change": {
+        "tp": 1
+      },
+      "due_before_issue": {
+        "tp": 1
+      },
+      "duplicate_invoice": {
+        "tp": 1
+      },
+      "line_sum_mismatch": {
+        "tp": 1
+      },
+      "missing_po": {
+        "tp": 1
+      },
+      "non_reimbursable_items": {
+        "tp": 1
+      },
+      "not_addressed_to_us": {
+        "tp": 1
+      },
+      "price_mismatch": {
+        "tp": 1
+      },
+      "qty_exceeds_received": {
+        "tp": 1
+      },
+      "short_payment": {
+        "tp": 1
+      },
+      "short_shipment": {
+        "tp": 1
+      },
+      "total_mismatch": {
+        "tp": 1
+      }
+    }
+  },
+  "route_accuracy": 0.96,
+  "routes": {
+    "auto_approve -> auto_approve": 14,
+    "review -> review": 8,
+    "reject -> reject": 2,
+    "auto_approve -> review": 1
+  },
+  "safety": {
+    "needs_attention_caught": 10,
+    "needs_attention_total": 10,
+    "false_approvals": 0,
+    "false_rejects": 0,
+    "clean_auto_approved": 14,
+    "clean_total": 15
+  },
+  "confidence_calibration": {
+    "0.0-0.5": {
+      "n": 9,
+      "accuracy": 0.667
+    },
+    "0.5-0.7": {
+      "n": 10,
+      "accuracy": 0.9
+    },
+    "0.7-0.9": {
+      "n": 6,
+      "accuracy": 1.0
+    },
+    "0.9-1.0": {
+      "n": 213,
+      "accuracy": 1.0
+    }
+  },
+  "confidence_calibration_lists": {
+    "0.0-0.5": {
+      "n": 21,
+      "accuracy": 0.952
+    },
+    "0.5-0.7": {
+      "n": 1,
+      "accuracy": 1.0
+    },
+    "0.7-0.9": {
+      "n": 4,
+      "accuracy": 1.0
+    },
+    "0.9-1.0": {
+      "n": 55,
+      "accuracy": 1.0
+    }
+  },
+  "verifier": {
+    "flagged/wrong": 1,
+    "not_flagged/right": 163,
+    "fields_not_verified": 155
+  },
+  "extraction_flags": {
+    "flagged/right": 1,
+    "not_flagged/right": 313,
+    "not_flagged/wrong": 5
+  },
+  "modes": {
+    "hybrid": 25
+  },
+  "models": {
+    "clairic": [
+      "clairic"
+    ],
+    "jev": [
+      "jev-1.14.0"
+    ]
+  },
+  "tokens": {
+    "jev": 331471,
+    "clairic": 393001
+  },
+  "cache": {
+    "hit_rate": 0.9253442507094822,
+    "cached_requests": 78,
+    "live_requests": 3
+  },
+  "cost_usd": {
+    "total": 0.053222,
+    "billed": 0.005409,
+    "per_document": 0.002129,
+    "per_1000_documents": 2.13,
+    "by_model": {
+      "jev": 0.013922,
+      "clairic": 0.0393
+    },
+    "by_stage": {
+      "classify": 0.006433,
+      "extract": 0.0393,
+      "semantic": 0.007274,
+      "match": 0.000215
+    },
+    "per_document_by_type": {
+      "bank_statement": 0.001847,
+      "credit_note": 0.002223,
+      "delivery_note": 0.001692,
+      "invoice": 0.003021,
+      "proforma_invoice": 0.001767,
+      "purchase_order": 0.00238,
+      "quote": 0.001816,
+      "receipt": 0.000552,
+      "remittance_advice": 0.001724
+    }
+  },
+  "seconds_per_document": {
+    "ingest": 1.95,
+    "pipeline": 0.27,
+    "end_to_end": 2.22
+  },
+  "latency": {
+    "p50": 0.014,
+    "p95": 1.937,
+    "max": 2.5749999999999997
+  }
+}

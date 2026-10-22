@@ -1,0 +1,19 @@
+# Bank account statements.
+required: [bank_name, account_holder, period_end, opening_balance, closing_balance]
+verify_fields: [account_holder, opening_balance, total_credits, total_debits, closing_balance]
+lines: {}
+rules:
+  - {check: balance}
+  - {check: date_order, earlier: period_start, later: period_end, flag: period_end_before_start, optional: true}
+semantic: [not_addressed_to_us]
+fields:
+  bank_name: {type: text, instructions: "Name of the bank issuing the statement"}
+  account_holder: {type: text, instructions: "Name of the account holder"}
+  account_number: {type: text, instructions: "The account number (possibly masked)"}
+  currency: {type: text, instructions: "ISO currency code of the account; statements often state it only in the fine print, e.g. 'All amounts in USD'"}
+  period_start: {type: date, instructions: "First day of the statement period"}
+  period_end: {type: date, instructions: "Last day of the statement period"}
+  opening_balance: {type: number, decimals: 2, instructions: "Balance at the start of the period"}
+  total_credits: {type: number, decimals: 2, instructions: "Total of deposits / credits during the period, as a positive number"}
+  total_debits: {type: number, decimals: 2, instructions: "Total of withdrawals / debits during the period, as a positive number"}
+  closing_balance: {type: number, decimals: 2, instructions: "Balance at the end of the period"}

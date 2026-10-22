@@ -1,0 +1,19 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.pytest_cache/
+.ruff_cache/
+*.log
+
+# Virtual environments
+.venv
+
+# Secrets and local state (uploads, model responses and run outputs hold document text)
+.env
+.streamlit/secrets.toml
+.cache/
+out/

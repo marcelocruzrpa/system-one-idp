@@ -1,0 +1,21 @@
+# Delivery notes / packing slips.
+required: [delivery_note_number, delivery_date, supplier_name, customer_name]
+verify_fields: [supplier_name, po_number, delivery_date]
+# Table columns in print order: Item | Description | Ordered | Shipped | Backordered (the last one is not extracted).
+lines:
+  descriptions: line_descriptions
+  ordered: line_ordered_quantities
+  shipped: line_shipped_quantities
+rules:
+  - {check: short_shipment}
+  - {check: not_future, fields: [delivery_date]}
+semantic: [not_addressed_to_us]
+fields:
+  delivery_note_number: {type: text, instructions: "The delivery note or packing slip number"}
+  delivery_date: {type: date, instructions: "Date the goods were shipped or delivered"}
+  supplier_name: {type: text, instructions: "Name of the company that shipped the goods (the supplier)"}
+  customer_name: {type: text, instructions: "Name of the company receiving the goods"}
+  po_number: {type: text, instructions: "The customer's purchase order number referenced"}
+  line_descriptions: {type: list, items: text, instructions: "The description of each shipped line item in the table, one per row, in order. Exclude item/SKU codes, column headers, company names and addresses"}
+  line_ordered_quantities: {type: list, items: number, decimals: 2, instructions: "Ordered quantity of each line item, in order"}
+  line_shipped_quantities: {type: list, items: number, decimals: 2, instructions: "Shipped / delivered quantity of each line item, in order"}

@@ -1,0 +1,23 @@
+# Point-of-sale receipts (expense claims).
+required: [merchant_name, transaction_date, total]
+verify_fields: [merchant_name, transaction_date, subtotal, tax_amount, total]
+lines:
+  descriptions: item_descriptions
+  amounts: item_amounts
+rules:
+  - {check: totals}
+  - {check: line_sum}
+  - {check: not_future, fields: [transaction_date]}
+semantic: [non_reimbursable_items]
+fields:
+  merchant_name: {type: text, instructions: "Name of the shop, restaurant or business that issued the receipt"}
+  transaction_date: {type: date, instructions: "Date of the purchase"}
+  transaction_time: {type: time, instructions: "Time of the purchase"}
+  currency: {type: text, instructions: "ISO currency code, e.g. USD or EUR"}
+  subtotal: {type: number, decimals: 2, instructions: "Amount before tax and tip"}
+  tax_amount: {type: number, decimals: 2, instructions: "Sales tax amount"}
+  total: {type: number, decimals: 2, instructions: "Total amount paid including tax"}
+  payment_method: {type: text, instructions: "How it was paid, e.g. VISA, Mastercard, cash"}
+  card_last4: {type: text, instructions: "Last four digits of the payment card"}
+  item_descriptions: {type: list, items: text, instructions: "Name of each purchased item that has its own price on the same line, in order. Exclude the store name and address, register or transaction lines, and the subtotal, tax, total and payment lines"}
+  item_amounts: {type: list, items: number, decimals: 2, instructions: "Price paid for each purchased item, in order"}

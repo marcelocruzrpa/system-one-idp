@@ -1,0 +1,42 @@
+{
+  "doc_id": "invoice-05",
+  "doc_type": "invoice",
+  "note": "Billed to a different company (Apex Robotix B.V.) and has no PO",
+  "pages": 1,
+  "fields": {
+    "invoice_number": "RE-2026-0461",
+    "issue_date": "2026-09-25",
+    "due_date": "2026-10-25",
+    "vendor_name": "Helios Components GmbH",
+    "vendor_tax_id": "DE287456913",
+    "bill_to_name": "Apex Robotix B.V.",
+    "po_number": null,
+    "currency": "EUR",
+    "payment_terms": "30 days net",
+    "subtotal": 3000.0,
+    "tax_amount": 0.0,
+    "total": 3000.0,
+    "line_descriptions": [
+      "Harmonic drive unit HD-14-50",
+      "Torque sensor TS-200 Nm"
+    ],
+    "line_quantities": [
+      2.0,
+      1.0
+    ],
+    "line_unit_prices": [
+      1180.0,
+      640.0
+    ],
+    "line_amounts": [
+      2360.0,
+      640.0
+    ]
+  },
+  "expected_flags": [
+    "not_addressed_to_us",
+    "missing_po"
+  ],
+  "expected_route": "reject",
+  "links": {}
+}

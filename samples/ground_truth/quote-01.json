@@ -1,0 +1,40 @@
+{
+  "doc_id": "quote-01",
+  "doc_type": "quote",
+  "note": "Quote (nothing owed yet)",
+  "pages": 1,
+  "fields": {
+    "quote_number": "Q-NW-2026-118",
+    "quote_date": "2026-10-12",
+    "valid_until": "2026-11-11",
+    "vendor_name": "Northwind Supply Co.",
+    "customer_name": "Acme Robotics Inc.",
+    "currency": "USD",
+    "subtotal": 2592.5,
+    "tax_amount": 220.36,
+    "total": 2812.86,
+    "line_descriptions": [
+      "Brushless DC motor 57BL55",
+      "Motor controller BLD-300B",
+      "Encoder cable 2 m"
+    ],
+    "line_quantities": [
+      25.0,
+      25.0,
+      25.0
+    ],
+    "line_unit_prices": [
+      61.5,
+      38.0,
+      4.2
+    ],
+    "line_amounts": [
+      1537.5,
+      950.0,
+      105.0
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {}
+}

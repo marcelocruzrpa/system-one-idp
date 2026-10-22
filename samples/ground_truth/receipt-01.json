@@ -1,0 +1,30 @@
+{
+  "doc_id": "receipt-01",
+  "doc_type": "receipt",
+  "note": "Hardware store receipt (business supplies)",
+  "pages": 1,
+  "fields": {
+    "merchant_name": "METRO HARDWARE & SUPPLY",
+    "transaction_date": "2026-10-08",
+    "transaction_time": "14:32",
+    "currency": "USD",
+    "subtotal": 38.47,
+    "tax_amount": 3.94,
+    "total": 42.41,
+    "payment_method": "VISA",
+    "card_last4": "4821",
+    "item_descriptions": [
+      "Zip ties 8in 100pk",
+      "Electrical tape 3pk",
+      "Drill bit set 21pc"
+    ],
+    "item_amounts": [
+      7.99,
+      5.49,
+      24.99
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {}
+}

@@ -1,0 +1,28 @@
+{% extends "_base.html.j2" %}
+{% block style %}
+  body { font-family: "Consolas", "Courier New", monospace; font-size: 9pt; width: 72mm; margin: 0 auto; padding: 4mm 0; }
+  .c { text-align: center; }
+  .b { font-weight: 700; }
+  .rule { border-top: 1px dashed #111; margin: 6px 0; }
+  .row { display: flex; justify-content: space-between; gap: 8px; }
+  .big { font-size: 12pt; font-weight: 700; }
+{% endblock %}
+{% block body %}
+<div class="c b big">{{ merchant }}</div>
+{% for l in address %}<div class="c">{{ l }}</div>{% endfor %}
+<div class="rule"></div>
+<div class="row"><span>{{ date }}</span><span>{{ time }}</span></div>
+<div class="row"><span>TXN {{ txn }}</span><span>REG 02</span></div>
+<div class="rule"></div>
+{% for d, p in items %}<div class="row"><span>{{ d }}</span><span>{{ p }}</span></div>{% endfor %}
+<div class="rule"></div>
+<div class="row"><span>SUBTOTAL</span><span>{{ subtotal }}</span></div>
+<div class="row"><span>{{ tax_label }}</span><span>{{ tax }}</span></div>
+<div class="row big"><span>TOTAL USD</span><span>{{ total }}</span></div>
+<div class="rule"></div>
+<div class="row"><span>{{ method }} ************{{ last4 }}</span><span>{{ total }}</span></div>
+<div class="row"><span>AUTH {{ auth }}</span><span>APPROVED</span></div>
+<div class="rule"></div>
+<div class="c">THANK YOU FOR YOUR VISIT</div>
+<div class="c">Keep this receipt for your records</div>
+{% endblock %}

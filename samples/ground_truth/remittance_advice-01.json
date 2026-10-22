@@ -1,0 +1,25 @@
+{
+  "doc_id": "remittance_advice-01",
+  "doc_type": "remittance_advice",
+  "note": "Full payment of two invoices",
+  "pages": 1,
+  "fields": {
+    "payer_name": "Globex Manufacturing Corp.",
+    "payee_name": "Acme Robotics Inc.",
+    "payment_date": "2026-10-09",
+    "payment_reference": "ACH-889120",
+    "currency": "USD",
+    "payment_total": 20650.0,
+    "invoice_numbers": [
+      "ACM-INV-3301",
+      "ACM-INV-3307"
+    ],
+    "paid_amounts": [
+      12450.0,
+      8200.0
+    ]
+  },
+  "expected_flags": [],
+  "expected_route": "auto_approve",
+  "links": {}
+}

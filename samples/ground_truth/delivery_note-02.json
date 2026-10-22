@@ -1,0 +1,35 @@
+{
+  "doc_id": "delivery_note-02",
+  "doc_type": "delivery_note",
+  "note": "Encoder short-shipped: 8 of 10, 2 on backorder",
+  "pages": 1,
+  "fields": {
+    "delivery_note_number": "DN-HE-2210",
+    "delivery_date": "2026-09-14",
+    "supplier_name": "Helios Components GmbH",
+    "customer_name": "Acme Robotics Inc.",
+    "po_number": "PO-4502",
+    "line_descriptions": [
+      "Planetary gearbox PLE60 i=10",
+      "Absolute encoder AE17",
+      "Ball screw SFU1204 500 mm"
+    ],
+    "line_ordered_quantities": [
+      6.0,
+      10.0,
+      8.0
+    ],
+    "line_shipped_quantities": [
+      6.0,
+      8.0,
+      8.0
+    ]
+  },
+  "expected_flags": [
+    "short_shipment"
+  ],
+  "expected_route": "review",
+  "links": {
+    "po": "PO-4502"
+  }
+}
