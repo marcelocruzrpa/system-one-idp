@@ -6,13 +6,27 @@ from typing import Any
 import pytest
 
 from idp.clients.jev import JevResult
-from idp.config import SAMPLES_DIR, schema as load_schema
+from idp.config import ROOT, SAMPLES_DIR, schema as load_schema
+from idp.models import Check, Classification, Extraction, FieldAnswer, ProcessResult
+from idp.route import route
 
 SIGNAL_FLAGS = {"has_paid_marking": "already_paid", "requests_bank_detail_change": "bank_detail_change"}
 
 
 def load_truth(doc_id: str) -> dict[str, Any]:
     return json.loads((SAMPLES_DIR / "ground_truth" / f"{doc_id}.json").read_text(encoding="utf-8"))
+
+
+def make_result(*failed: str, path: str = "samples/digital/invoice-03.pdf", mode: str = "text") -> ProcessResult:
+    """A processed invoice whose only failed checks are `failed`, routed by the real `route()`."""
+    checks = [Check(id="required_fields", stage="rules", passed=True, detail="All required fields present.")]
+    checks += [Check(id=f, stage="rules", passed=False, detail=f"{f} detail: with a colon.") for f in failed]
+    decision, reasons = route(checks)
+    return ProcessResult(path=str(ROOT / path), mode=mode, text="Invoice INV-7 | Total | 1,329.56", page_count=1,
+                         classification=Classification(doc_type="invoice", confidence=0.97, probabilities={"invoice": 0.97}),
+                         extraction=Extraction(fields={"total": FieldAnswer(type="number", value=1329.56, confidence=0.9,
+                                                                            p_null=0.01)}),
+                         checks=checks, route=decision, reasons=reasons)
 
 
 class FakeJev:

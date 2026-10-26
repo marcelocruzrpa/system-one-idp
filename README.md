@@ -18,6 +18,8 @@ PDF / PNG / JPEG
   -> validate   input checks (whole file read? one document?) | rules (code) | semantic verifier (Jev Nouls,
                 true = problem) | three-way match (supplier + currency in code, Jev line matching, ERP quantities)
   -> route      reject (hard fail) | review (any flag, including checks that could not run) | auto_approve
+  -> review     a person approves or rejects every review / reject document in the app, marks each flag a real
+                issue or a false alarm, adds a note; decisions go to an append-only log (out/reviews.jsonl)
 ```
 
 `--mode` chooses what the models read: `text` (OCR/text layer), `image` (page images only — Clairic takes up to 4
@@ -84,7 +86,7 @@ Only `idp generate` (rendering the sample documents with a headless browser) nee
 | `uv run idp run samples/scanned/invoice-03.png` | Process one file; prints fields, checks, route and cost; saves `out/run-*.json` (`--force-ocr` to ignore a PDF text layer) |
 | `uv run idp eval --source digital` | Score all samples against ground truth (`--mode auto`); saves `out/eval-*/scorecard.json` |
 | `uv run idp eval --source scanned --mode image --only invoice` | Same, scanned inputs, image-only mode, invoices only |
-| `uv run streamlit run app/streamlit_app.py` | Interactive demo: pick a sample or upload, inspect every decision |
+| `uv run streamlit run app/streamlit_app.py` | Interactive demo: pick a sample or upload, inspect every decision, approve or reject review / reject documents (Input: Review queue lists what is waiting) |
 | `uv run pytest` | Offline tests, including the full pipeline over all samples with perfect fake models |
 
 Model responses are cached in `.cache/` by request hash, so repeated evals cost nothing; pass `--no-cache` to refresh.
@@ -135,6 +137,7 @@ already-posted invoices (POs/receipts live in the ERP in real AP flows).
 | Addressed to us, short payment, non-reimbursable | `validate/semantic.py` | Jev **Nouls** with our company + aliases in state |
 | Invoice line <-> PO line | `lines.py`, `validate/match.py` | code reads the table rows; Jev **Choice** maps each row to a PO line (or `no_match`); an uncertain match is `unverified:line_match`; code compares qty/price/received |
 | Decision | `route.py` | code (`reject_flags` in policy) |
+| Exceptions | `review.py`, the app's "4 - Human review" | a person: approve / reject, a verdict per flag; a note is required to approve a reject or a real issue, or to reject with none |
 
 ## Things to know
 
@@ -173,4 +176,7 @@ already-posted invoices (POs/receipts live in the ERP in real AP flows).
 - Uploads (`out/uploads/`), run outputs (`out/`) and cached model responses (`.cache/`, which include the document
   text sent) stay on disk until you delete them: use "Delete my uploads" in the app, or delete the `out/` and
   `.cache/` folders. Both are gitignored.
+- The review log (`out/reviews.jsonl`) keeps the full result each decision was made on, extracted values and
+  document text included, with the reviewer's name and note. "Delete my uploads" also removes the review cases of
+  uploads; "Clear the review log" (Input: Review queue) removes the rest.
 - All sample data is fictitious: companies, people, addresses, tax ids and bank details are invented.

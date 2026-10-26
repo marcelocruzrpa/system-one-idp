@@ -5,10 +5,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "app"))
 
-from ui_helpers import (check_label, erp_url, extraction_rows, find_evidence, line_item_rows, lines_table,  # noqa: E402
-                        po_number_from_detail, replayed_from_cache, split_reasons, truth_caption)
+from ui_helpers import (check_label, erp_url, extraction_rows, find_evidence, history_line, line_item_rows,  # noqa: E402
+                        lines_table, po_number_from_detail, queue_label, replayed_from_cache, review_summary,
+                        split_reasons, truth_caption)
 
 from idp.models import Extraction, FieldAnswer, Usage  # noqa: E402
+from idp.review import ReviewLog  # noqa: E402
+from tests.conftest import make_result  # noqa: E402
 
 
 def test_check_label_known_prefixed_and_fallback():
@@ -142,8 +145,7 @@ def test_po_number_from_detail_and_erp_url():
     assert po_number_from_detail("PO-4501 found (Northwind Supply Co.).") == "PO-4501"
     assert po_number_from_detail("PO 1 found (Vendor (Europe) GmbH).") == "PO 1"
     assert po_number_from_detail("PO PO-9 is not in the ERP.") is None
-    url = erp_url(Path("out") / "erp.html", "PO 1")
-    assert url.startswith("file:///") and url.endswith("/out/erp.html#/pos/PO%201")
+    assert erp_url("PO 1") == "app/static/erp.html#/pos/PO%201"
 
 
 def test_replayed_from_cache_needs_every_request_cached():
@@ -154,3 +156,27 @@ def test_replayed_from_cache_needs_every_request_cached():
     assert not replayed_from_cache(live)
     assert not replayed_from_cache({})
     assert not replayed_from_cache({"classify": Usage(jev_requests=1)})
+
+
+def test_queue_label_summary_and_history(tmp_path):
+    log = ReviewLog(tmp_path / "reviews.jsonl")
+    case = log.record(make_result("price_mismatch", "missing:po_number"), title="invoice-03.pdf")
+    assert queue_label(case) == "invoice-03.pdf (text) · review · Unit price differs from PO"
+    quality = log.record(make_result("missing:po_number", path="samples/digital/x.pdf"), title="x.pdf")
+    assert queue_label(quality) == "x.pdf (text) · review · Missing: po_number"
+    assert review_summary(log.cases()) == "2 waiting · 0 decided"
+
+    log.decide(case.case_id, decision="approve", reviewer="Ana", note="Price increase agreed",
+               verdicts={"price_mismatch": "confirmed", "missing:po_number": "false_alarm"})
+    decided = log.case(case.case_id)
+    assert queue_label(decided) == "invoice-03.pdf (text) · review · approved by Ana"
+    rejected = log.record(make_result("duplicate_invoice", path="samples/digital/invoice-06.pdf"), title="invoice-06.pdf")
+    log.decide(rejected.case_id, decision="approve", reviewer="Ana", note="Credit note issued",
+               verdicts={"duplicate_invoice": "false_alarm"})
+    assert review_summary(log.cases()) == "1 waiting · 2 decided (1 overrides a reject) · flags: 1 real, 2 false alarms"
+
+    lines = [history_line(event) for event in decided.history]
+    assert lines[0].endswith(" · the code routed it to **review** (2 flags)")
+    assert lines[1].endswith(" · **approved** by Ana: Price increase agreed")
+    assert queue_label(log.record(make_result(), title="invoice-03.pdf")) == ("invoice-03.pdf (text) · auto approve · "
+                                                                              "no flags on re-run")

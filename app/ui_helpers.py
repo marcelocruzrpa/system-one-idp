@@ -1,17 +1,19 @@
-"""Pure helpers behind the Streamlit demo: check labels, reason splitting, evidence search and table shaping.
+"""Pure helpers behind the Streamlit demo: check labels, reason splitting, evidence search, table shaping and the
+review queue's labels.
 
 Nothing here imports Streamlit, so `tests/test_app_helpers.py` exercises it without a browser session.
 """
 
 import json
 import re
+from collections import Counter
 from datetime import date
-from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
 from idp.evaluate import score_field
 from idp.models import Extraction, FieldAnswer, Usage
+from idp.review import Case, Decided, Routed
 from idp.route import is_quality_flag
 
 # What a FAILED check means, in the words of an AP clerk. Prefixed ids (`missing:<field>`, `unverified:<rule>`, ...)
@@ -124,6 +126,7 @@ HEADERS = {"po_line": "PO line", "po": "PO price", "delta_pct": "delta %", "cand
 ITEM_COLUMNS = {"quantities": "quantity", "unit_prices": "unit price", "amounts": "amount", "ordered": "ordered",
                 "shipped": "shipped"}
 CONTEXT = 25
+VERDICTS = {"confirmed": "Real issue", "false_alarm": "False alarm"}
 
 
 def humanise(check_id: str) -> str:
@@ -319,9 +322,51 @@ def po_number_from_detail(detail: str) -> str | None:
     return m.group("po") if m else None
 
 
-def erp_url(page: Path, po_number: str) -> str:
-    """File URL of the mock ERP page opened on one purchase order (`#/pos/<po>` is the page's own router)."""
-    return f"{page.resolve().as_uri()}#/pos/{quote(po_number, safe='')}"
+def erp_url(po_number: str) -> str:
+    """URL of the mock ERP page opened on one purchase order (`#/pos/<po>` is the page's own router). Relative, so it
+    resolves against the app's address: Streamlit serves `app/static/` there, and browsers refuse `file://` links
+    from an `http://` page."""
+    return f"app/static/erp.html#/pos/{quote(po_number, safe='')}"
+
+
+# ------------------------------------------------------------------------------------------------ human review
+def _plural(n: int, word: str) -> str:
+    return f"{n} {word}{'' if n == 1 else 's'}"
+
+
+def queue_label(case: Case) -> str:
+    """`invoice-03.pdf (text) · review · Unit price differs from PO`: the heaviest flag while the case waits, who
+    decided once someone has."""
+    head = f"{case.routed.title} ({case.routed.mode}) · {case.route.replace('_', ' ')}"
+    if case.status == "auto_approved":
+        return f"{head} · no flags on re-run"
+    if case.decision:
+        return f"{head} · {case.status} by {case.decision.reviewer}"
+    business, quality = split_reasons(case.routed.result.reasons)
+    flags = business + quality
+    return f"{head} · {check_label(flags[0][0])}" if flags else head
+
+
+def review_summary(cases: list[Case]) -> str:
+    """`3 waiting · 5 decided (1 overrides a reject) · flags: 6 real, 2 false alarms`: the human labels so far."""
+    decided = [c for c in cases if c.decision]
+    overrides = sum(c.overrides for c in decided)
+    parts = [f"{sum(c.pending for c in cases)} waiting",
+             f"{len(decided)} decided" + (f" ({overrides} {'overrides' if overrides == 1 else 'override'} a reject)"
+                                          if overrides else "")]
+    verdicts = Counter(v for c in decided for v in c.decision.verdicts.values())
+    if verdicts:
+        parts.append(f"flags: {verdicts['confirmed']} real, {_plural(verdicts['false_alarm'], 'false alarm')}")
+    return " · ".join(parts)
+
+
+def history_line(event: Routed | Decided) -> str:
+    when = f"{event.at:%Y-%m-%d %H:%M}"
+    if isinstance(event, Decided):
+        line = f"{when} · **{'approved' if event.decision == 'approve' else 'rejected'}** by {event.reviewer}"
+        return line + (f": {event.note}" if event.note else "")
+    route = event.result.route.replace("_", " ")
+    return f"{when} · the code routed it to **{route}** ({_plural(len(event.result.flags), 'flag')})"
 
 
 def replayed_from_cache(stage_usage: dict[str, Usage]) -> bool:

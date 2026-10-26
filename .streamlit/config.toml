@@ -6,6 +6,9 @@
 [server]
 address = "localhost"
 headless = true
+# Serves app/static/ at /app/static/: the app renders the mock ERP page there so a validation check can link to a PO
+# (browsers refuse `file://` links from an `http://` page).
+enableStaticServing = true
 
 [browser]
 gatherUsageStats = false
