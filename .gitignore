@@ -17,3 +17,18 @@ wheels/
 .streamlit/secrets.toml
 .cache/
 out/
+# Mock ERP page the Streamlit app renders for its PO links
+app/static/
+
+# Test coverage
+.coverage
+.coverage.*
+htmlcov/
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
