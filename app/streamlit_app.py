@@ -161,7 +161,7 @@ if flash := st.session_state.pop("flash", None):  # set just before the st.rerun
     st.toast(flash[0], icon=flash[1])
 
 # ---------------------------------------------------------------------------------------------- headline
-st.title("Document processing without a generative LLM")
+st.title("Intelligent Document Processing with System One Models")
 st.markdown("Jev judges, Clairic extracts, code decides.")
 for col, (step, who, what) in zip(st.columns(len(STEPS)), STEPS):
     col.markdown(f"**{step}** :gray[{who}]  \n:small[{what}]")
